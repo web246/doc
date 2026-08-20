@@ -9,6 +9,15 @@ a{text-decoration:none;color:inherit}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #00c2ff;outline-offset:2px}
 img{display:block}
 
+/* Ensure responsive sizing and prevent horizontal scrolling */
+html,body{max-width:100%;overflow-x:hidden}
+img,video,svg{max-width:100%;height:auto;display:block}
+img{object-fit:cover}
+/* prevent unbroken long words from expanding containers */
+*{word-wrap:break-word;overflow-wrap:break-word}
+/* ensure anchor text wraps when long */
+a{word-break:break-word}
+
 /* info bar + nav */
 .info{height:30px;background:#050607;color:#b0b8c1;display:flex;align-items:center;justify-content:flex-end;gap:25px;padding:0 5vw;font:10px 'DM Mono';letter-spacing:.08em}
 .info span,.info a{display:flex;align-items:center;gap:6px}
