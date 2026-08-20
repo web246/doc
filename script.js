@@ -1,0 +1,280 @@
+// Data (services, reviews, faqs, images)
+const SERVICES = [
+  {slug:'carbon-clean-ultra-diagnostics',name:'Carbon Clean Ultra & Diagnostics',category:'Carbon Cleaning',price:'£99',duration:'59 min',desc:'A 60-minute engine carbon clean paired with computer diagnostics.'},
+  {slug:'carbon-clean-up-to-1-6l',name:'Carbon Clean up to 1.6L',category:'Carbon Cleaning',price:'£59',duration:'40 min',desc:'Hydrogen engine carbon cleaning for cars and vans up to 1.6 litres.'},
+  {slug:'carbon-clean-up-to-2-2l',name:'Carbon Clean up to 2.2L',category:'Carbon Cleaning',price:'£69',duration:'40 min',desc:'Hydrogen engine carbon cleaning for cars and vans up to 2.2 litres.'},
+  {slug:'carbon-clean-from-2-2l',name:'Carbon Clean from 2.2L',category:'Carbon Cleaning',price:'£79',duration:'40 min',desc:'Hydrogen engine carbon cleaning for cars and vans above 2.2 litres.'},
+  {slug:'commercial-carbon-clean',name:'Commercial Carbon Clean',category:'Carbon Cleaning',price:'£89',duration:'40 min',desc:'Carbon cleaning designed around working commercial vehicles.'},
+  {slug:'two-engine-carbon-clean',name:'Two Engine Carbon Cleans',category:'Carbon Cleaning',price:'£119',duration:'59 min',desc:'Two carbon cleans for any size engines at our Northampton location.'},
+  {slug:'hgv-carbon-clean',name:'HGV Carbon Clean',category:'Carbon Cleaning',price:'£149',duration:'59 min',desc:'Engine carbon cleaning for HGV and heavy-duty applications.'},
+  {slug:'dpf-wash-flush',name:'DPF Wash & Flush',category:'DPF Services',price:'£249.99',duration:'1 hour',desc:'DPF wash and flush service with ECU sensor resetting.'},
+  {slug:'dpf-wash-flush-4-2-tdi',name:'DPF Wash & Flush 4.2 TDI',category:'DPF Services',price:'£299.99',duration:'1 hour',desc:'Dedicated DPF wash and flush service for 4.2 TDI vehicles.'},
+  {slug:'computer-diagnostics',name:'Computer Diagnostics',category:'Diagnostics',price:'Enquire',duration:'—',desc:'Professional computer diagnostics to identify vehicle faults.'},
+  {slug:'safety-analysis',name:'Safety Analysis',category:'Diagnostics',price:'Enquire',duration:'—',desc:'A focused vehicle safety assessment and clear advice.'},
+  {slug:'drivability-problems',name:'Drivability Problems',category:'Diagnostics',price:'Enquire',duration:'—',desc:'Investigation of performance, response and running concerns.'},
+  {slug:'chemical-inlet-manifold-carbon-clean',name:'Chemical Inlet Manifold Carbon Clean',category:'Other Services',price:'£199.99',duration:'59 min',desc:'Targeted chemical cleaning for inlet manifold carbon deposits.'},
+  {slug:'oil-change-advice',name:'Oil Change Advice',category:'Other Services',price:'Enquire',duration:'—',desc:'Practical maintenance advice following carbon cleaning.'},
+  {slug:'tyre-inspection',name:'Tyre Inspection',category:'Other Services',price:'Enquire',duration:'—',desc:'Professional visual tyre condition inspection.'}
+];
+
+const REVIEWS = [
+  {name:'Russell Skinner',date:'July 2023',text:'Absolute professional, genuinely knows his business and has vast experience. I would not hesitate for a second to recommend him.'},
+  {name:'James Hobbs',date:'May 2022',text:'Paul gave me a really clear explanation of the problem and how the Carbon Doctor service would be able to help. Absolutely brilliant!'},
+  {name:'Sam Durling',date:'May 2022',text:'Amazing service from Paul. Had a 60 min carbon clean done on my VW Scirocco and Paul was a top gent.'}
+];
+
+const FAQS = [
+  {q:'What is engine carbon cleaning?',a:'Carbon Doctor uses deionised water to create hydrogen and oxygen, which pass through the engine air intake and exhaust as a gas to help remove excess carbon.'},
+  {q:'How does DPF cleaning work?',a:'The DPF wash and flush service cleans accumulated soot and ash and includes ECU sensor resetting.'},
+  {q:'How long does carbon cleaning take?',a:'Most listed car and van carbon-clean services take 40 minutes; the Ultra service and selected larger-vehicle services take around 59 minutes.'},
+  {q:'Where is Carbon Doctor located?',a:'310 Wellingborough Road, Northampton, NN1 4EP, UK.'},
+  {q:'Can you come to my location?',a:'Some services are listed as available at the customer\'s place. Call to confirm availability for your vehicle and postcode.'},
+  {q:'What vehicles can you service?',a:'Carbon cleaning is listed for petrol, diesel and LPG engines, from motorcycles and cars to vans, HGVs and specialist applications.'},
+  {q:'How do I book?',a:'Choose a service online or call 0800 093 6112 to discuss the right option.'}
+];
+
+// Routing helpers
+function linkClickHandler(e){
+  const a = e.target.closest('a');
+  if(!a) return;
+  const href = a.getAttribute('href');
+  if(href && href.startsWith('/')){
+    e.preventDefault();
+    history.pushState(null,'',href);
+    router();
+    // close mobile menu
+    document.querySelector('.links')?.classList.remove('open');
+    document.getElementById('mega')?.setAttribute('hidden','');
+  }
+}
+
+document.addEventListener('click', linkClickHandler);
+
+window.addEventListener('popstate', router);
+
+// Basic router mapping
+function router(){
+  const path = location.pathname.replace(/\/$/,'') || '/';
+  const app = document.getElementById('app');
+  document.getElementById('year').textContent = new Date().getFullYear();
+  if(path === '/'){
+    renderTemplate('tmpl-home');
+    hookHome();
+    return;
+  }
+  if(path === '/services' || path.startsWith('/services')){
+    renderServices(path);
+    return;
+  }
+  if(path === '/results'){
+    renderResults();
+    return;
+  }
+  if(path === '/areas-we-cover'){
+    renderAreas();
+    return;
+  }
+  if(path === '/faq'){
+    renderFaq();
+    return;
+  }
+  if(path === '/contact'){
+    renderContact();
+    return;
+  }
+  if(path === '/book'){
+    renderBooking();
+    return;
+  }
+  // story pages (about, carbon-cleaning, dpf-services, diagnostics, commercial-fleet)
+  const stories = ['/about','/carbon-cleaning','/dpf-services','/diagnostics','/commercial-fleet','/privacy','/terms'];
+  if(stories.includes(path)){
+    renderStory(path);
+    return;
+  }
+  // fallback
+  document.getElementById('app').innerHTML = '<section class="section"><h2>Page not found</h2><p class="copy">The requested page could not be found.</p></section>';
+}
+
+function renderTemplate(id){
+  const t = document.getElementById(id);
+  if(!t) return;
+  document.getElementById('app').innerHTML = t.innerHTML;
+}
+
+function renderServices(path){
+  const groups = ['Carbon Cleaning','DPF Services','Diagnostics','Other Services'];
+  const html = [];
+  html.push('<section class="section"><header><p class="eyebrow">SERVICES</p><h2>All Services</h2></header>');
+  groups.forEach(group=>{
+    html.push(`<div class="catalogue"><h3 class="eyebrow">SERVICE GROUP</h3><h2>${group}</h2>`);
+    SERVICES.filter(s=>s.category===group).forEach(s=>{
+      const price = s.price || 'Enquire';
+      html.push(`<a href="/services/${s.slug}"><span><b>${s.name}</b><small>${s.desc}</small></span><em>${price}${s.duration && s.duration!=='—' ? ' · '+s.duration : ''}</em><span>→</span></a>`);
+    });
+    html.push('</div>');
+  });
+  html.push('</section>');
+  document.getElementById('app').innerHTML = html.join('\n');
+}
+
+function renderResults(){
+  const categories = [...new Set(SERVICES.map(s=>s.category))];
+  const imgs = [
+    '381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png',
+    '381db8_3f48ab4de12b43d0aba5883928871191~mv2.png',
+    '381db8_44aa39333bf44a93b92d3cdfddc79f0b~mv2.png',
+    '381db8_39e5748451a24a18acf6f2a3d60edbbe~mv2_d_4032_3024_s_4_2.jpg',
+    '381db8_c45b1365293c4c579c5c0562c0b380e9~mv2.jpg',
+    '381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg',
+    '381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg',
+    '11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'
+  ];
+  const base = 'https://static.wixstatic.com/media/';
+  let html = '<section class="section results"><header><p class="eyebrow">GALLERY</p><h2>Results</h2></header>';
+  html += '<div class="gallery"><div class="filters">';
+  html += `<button class="active" data-cat="all">All</button>`;
+  categories.forEach(c=>html+=`<button data-cat="${c}">${c}</button>`);
+  html += '</div><div>';
+  imgs.forEach(id=>{
+    const src = base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
+    html += `<button data-src="${src}"><img src="${src}" alt="result"><span><b>Carbon Cleaning</b><small>Engine bay — pre-clean inspection</small><svg>🔍</svg></span></button>`;
+  });
+  html += '</div></div></section>';
+  document.getElementById('app').innerHTML = html;
+  // wire gallery
+  document.querySelectorAll('.gallery button[data-src]').forEach(b=>b.addEventListener('click',e=>{
+    const src = b.getAttribute('data-src');
+    openLightbox(src);
+  }));
+}
+
+function openLightbox(src){
+  const lb = document.createElement('div'); lb.className='lightbox';
+  lb.innerHTML = `<button aria-label="Close">✕</button><img src="${src}" alt="zoom">`;
+  document.body.appendChild(lb);
+  lb.querySelector('button').onclick = ()=>document.body.removeChild(lb);
+}
+
+function renderAreas(){
+  document.getElementById('app').innerHTML = `<section class="section"><div class="areaMap"><div><p class="eyebrow">WORKSHOP LOCATION</p><h2>310 Wellingborough Road</h2><p>Northampton · NN1 4EP · United Kingdom</p><a class="btn" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton">Get directions</a></div><div class="mapVisual"><svg><!-- map pin --></svg><span>NORTHAMPTON</span><small>52.234° N / 0.902° W</small></div></div></section>`;
+}
+
+function renderFaq(){
+  let html = '<section class="section faqPage"><div><p class="eyebrow">SERVICE FAQ</p><h2>Before you book</h2><p>Need to discuss a specific vehicle? Call 0800 093 6112.</p></div><div class="accordion">';
+  FAQS.forEach((f,i)=>{
+    html += `<article><button data-i="${i}">${f.q}<span>+</span></button><p class="hidden">${f.a}</p></article>`;
+  });
+  html += '</div></section>';
+  document.getElementById('app').innerHTML = html;
+  document.querySelectorAll('.accordion button').forEach(btn=>btn.addEventListener('click',e=>{
+    const i = +btn.dataset.i; const p = btn.nextElementSibling; const open = !p.classList.contains('open');
+    document.querySelectorAll('.accordion p').forEach(x=>x.classList.remove('open'));
+    document.querySelectorAll('.accordion button span').forEach(s=>s.textContent='+');
+    if(open){ p.classList.add('open'); btn.querySelector('span').textContent='-'; }
+  }));
+}
+
+function renderContact(){
+  const html = `<section class="section contact"><div><p class="eyebrow">CARBON DOCTOR</p><h2>Northampton</h2><p><a href="tel:08000936112">0800 093 6112</a></p><p><a href="mailto:info@carbon.doctor">info@carbon.doctor</a></p><p>310 Wellingborough Road, Northampton</p><a class="textLink" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton">Get directions</a></div><div><form id="contactForm"><label>Name<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Phone<input name="phone"></label><label>Vehicle / registration<input name="vehicle"></label><label>How can we help?<textarea name="message" rows="4"></textarea></label><div style="grid-column:1/-1"><button class="btn" type="submit">Send message</button></div></form><div id="contactSuccess" class="success" style="display:none"><svg>✓</svg><h3>Message prepared.</h3><p>Thank you. For this client demo, submissions are simulated. Call the team for a live enquiry.</p></div></div></section>`;
+  document.getElementById('app').innerHTML = html;
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit',e=>{
+    e.preventDefault(); form.style.display='none'; document.getElementById('contactSuccess').style.display='block';
+  });
+}
+
+function renderStory(path){
+  let title=''; let image=''; let head=''; let body='';
+  if(path==='/about'){ title='Restorative engineering, since 2017.'; image='381db8_bf0e75a996d34d67a8fe33ede8d0f12d~mv2_d_3024_4032_s_4_2.jpg'; head='A modern approach to engine care'; body='The hydrogen cleaning system uses deionised water to create hydrogen and oxygen, passed through the engine without dismantling components or using harmful chemical products. The approach is technical, but the service remains personal: understand the vehicle, explain the work and give clear maintenance advice.' }
+  if(path==='/carbon-cleaning'){ title='Give your engine room to breathe.'; image='381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png'; head='Carbon cleaning, without dismantling'; body='Hydrogen and oxygen pass through the engine air intake and leave through the exhaust as a gas, helping remove excess carbon associated with poor running.' }
+  if(path==='/dpf-services'){ title='Restore flow. Protect performance.'; image='381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'; head='Address the restriction properly'; body='Diesel particulate filters capture exhaust particulates, but soot and ash build-up can lead to warning lights, reduced performance and limp mode.' }
+  if(path==='/diagnostics'){ title='Evidence before action.'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Find the cause, not just the symptom'; body='Computer diagnostics support a clearer understanding of vehicle faults.' }
+  if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
+  if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
+  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}" alt="hero"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="btn" href="/services">Explore services</a></div></section><section class="section editorial"><div><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="https://static.wixstatic.com/media/${image}/v1/fill/w_1200,h_900,al_c,q_85/${image}" alt="story"></div></section><section class="manifesto"><p>PRECISION</p><h2>Professional equipment. / Clear advice. / Customer-focused care.</h2><a class="textLink" href="/book">Choose a service →</a></section>`;
+}
+
+// Booking flow (simplified single-page form)
+function renderBooking(){
+  let serviceQuery = new URLSearchParams(location.search).get('service');
+  const stepsHtml = `
+  <section class="booking">
+    <header><p class="eyebrow">CARBON DOCTOR · SECURE BOOKING DEMO</p><h1>Book your service</h1><div class="progress"><span class="active"></span><span></span><span></span><span></span><span></span></div></header>
+    <section>
+      <div id="stepContainer"></div>
+    </section>
+  </section>`;
+  document.getElementById('app').innerHTML = stepsHtml;
+  const state = {step:1,service:serviceQuery||'',date:'',time:'',info:{name:'',phone:'',email:'',vehicle:''}};
+  function renderStep(){
+    const el = document.getElementById('stepContainer');
+    if(state.step===1){
+      el.innerHTML = '<h2>Select service</h2><div class="servicePicker">' + SERVICES.map(s=>`<button data-slug="${s.slug}" class="${s.slug===state.service?'active':''}"><div><b>${s.name}</b><small>${s.desc}</small></div><div><em>${s.price}</em><div>${s.duration}</div></div></button>`).join('') + '</div><nav><button id="nextBtn" class="btn" disabled>Continue</button></nav>';
+      el.querySelectorAll('.servicePicker button').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('.servicePicker button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); state.service=b.dataset.slug; el.querySelector('#nextBtn').disabled=false;}));
+    }
+    if(state.step===2){
+      el.innerHTML = `<h2>Date & time</h2><label>Date<input type="date" id="bkDate" min="${new Date().toISOString().slice(0,10)}"></label><div class="slots"><button data-time="10:00">10:00</button><button data-time="11:30">11:30</button><button data-time="14:00">14:00</button><button data-time="16:00">16:00</button></div><nav><button id="backBtn" class="btn">Back</button><button id="nextBtn" class="btn" disabled>Continue</button></nav>`;
+      el.querySelectorAll('.slots button').forEach(b=>b.addEventListener('click',()=>{ el.querySelectorAll('.slots button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); state.time=b.dataset.time; checkNext(); }));
+      el.querySelector('#bkDate').addEventListener('change',e=>{ state.date=e.target.value; checkNext(); });
+      el.querySelector('#backBtn').addEventListener('click',()=>{ state.step=1; renderStep(); });
+      function checkNext(){ el.querySelector('#nextBtn').disabled = !(state.date && state.time); }
+      el.querySelector('#nextBtn').addEventListener('click',()=>{ state.step=3; renderStep(); });
+    }
+    if(state.step===3){
+      el.innerHTML = `<h2>Your details</h2><form id="bkForm" class="formGrid"><label>Full name<input name="name" required></label><label>Phone<input name="phone"></label><label>Email<input name="email" type="email"></label><label>Vehicle / registration<input name="vehicle"></label></form><nav><button id="backBtn" class="btn">Back</button><button id="nextBtn" class="btn">Continue</button></nav>`;
+      el.querySelector('#backBtn').addEventListener('click',()=>{ state.step=2; renderStep(); });
+      el.querySelector('#nextBtn').addEventListener('click',()=>{ const f = document.getElementById('bkForm'); const fm = new FormData(f); state.info.name=fm.get('name')||''; state.info.phone=fm.get('phone')||''; state.info.email=fm.get('email')||''; state.info.vehicle=fm.get('vehicle')||''; state.step=4; renderStep(); });
+    }
+    if(state.step===4){
+      const svc = SERVICES.find(s=>s.slug===state.service);
+      el.innerHTML = `<h2>Review</h2><div class="review"><dl><div><dt>Service</dt><dd>${svc.name}</dd></div><div><dt>Price</dt><dd>${svc.price}</dd></div><div><dt>Preferred slot</dt><dd>${state.date} ${state.time}</dd></div><div><dt>Vehicle</dt><dd>${state.info.vehicle}</dd></div><div><dt>Contact</dt><dd>${state.info.name} · ${state.info.phone} · ${state.info.email}</dd></div></dl><p>This demo does not take payment. Carbon Doctor would confirm the appointment directly.</p></div><nav><button id="backBtn" class="btn">Back</button><button id="confirmBtn" class="btn">Confirm</button></nav>`;
+      el.querySelector('#backBtn').addEventListener('click',()=>{ state.step=3; renderStep(); });
+      el.querySelector('#confirmBtn').addEventListener('click',()=>{ state.step=5; renderStep(); });
+    }
+    if(state.step===5){
+      el.innerHTML = `<div class="success"><svg>✓</svg><h2>Thank you, ${state.info.name || 'Customer'}.</h2><p>This is a simulated demo confirmation. No live appointment has been made. For a real booking, call 0800 093 6112.</p><a class="btn" href="tel:08000936112">Call 0800 093 6112</a></div>`;
+    }
+    // update progress bar
+    document.querySelectorAll('.progress span').forEach((sp,i)=>{ sp.classList.toggle('active', i<state.step); });
+  }
+  renderStep();
+}
+
+// Home hooks: slider, controls, pause on hover
+function hookHome(){
+  const slides = [
+    {k:'ENGINE CARBON CLEANING',title:['Restore Your Engine.','Drive With Confidence.'],text:'Professional hydrogen carbon cleaning designed to help your engine breathe.',img:'381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png'},
+    {k:'DPF CLEANING & RESTORATION',title:['Clear The Restriction.','Restore The Drive.'],text:'Specialist DPF wash and flush with ECU sensor resetting.',img:'381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'},
+    {k:'VEHICLE DIAGNOSTICS',title:['Precision Insight.','Clear Direction.'],text:'Professional diagnostics for warning lights and drivability concerns.',img:'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'},
+    {k:'COMMERCIAL & FLEET',title:['Keep Your Fleet','Moving.'],text:'DPF cleaning and preventative maintenance for working vehicles.',img:'381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'}
+  ];
+  const root = document.querySelector('.hero');
+  if(!root) return;
+  const eyebrow = root.querySelector('.eyebrow');
+  const h1 = root.querySelector('h1');
+  const lead = root.querySelector('.lead');
+  const bg = root.querySelector('.heroBg');
+  const dots = root.querySelectorAll('.dot');
+  let i = 0; let pause=false; let timer=null;
+  function show(n){ i=(n+slides.length)%slides.length; eyebrow.textContent = 'PROFESSIONAL AUTOMOTIVE CARE · '+slides[i].k; h1.innerHTML = slides[i].title.map(s=>`<span>${s}</span>`).join(''); lead.textContent = slides[i].text + ' From Carbon Doctor in Northampton.'; bg.src = 'https://static.wixstatic.com/media/'+slides[i].img+'/v1/fill/w_1600,h_900,al_c,q_85/'+slides[i].img; dots.forEach(d=>d.classList.toggle('active', +d.dataset.i===i)); }
+  function start(){ timer = setInterval(()=>{ if(!pause) show(i+1); },6000); }
+  function stop(){ clearInterval(timer); timer=null; }
+  root.addEventListener('mouseenter',()=>pause=true);
+  root.addEventListener('mouseleave',()=>pause=false);
+  root.querySelector('#heroPrev').addEventListener('click',()=>show(i-1));
+  root.querySelector('#heroNext').addEventListener('click',()=>show(i+1));
+  dots.forEach(d=>d.addEventListener('click',()=>show(+d.dataset.i)));
+  show(0); start();
+}
+
+// Mega menu and mobile
+document.getElementById('servicesBtn')?.addEventListener('click',()=>{
+  const mega = document.getElementById('mega'); if(mega.hasAttribute('hidden')) mega.removeAttribute('hidden'); else mega.setAttribute('hidden','');
+});
+document.getElementById('menuBtn')?.addEventListener('click',()=>{
+  document.querySelector('.links')?.classList.toggle('open');
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded',()=>router());
