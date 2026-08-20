@@ -84,6 +84,23 @@ a{word-break:break-word}
 .pageHero{height:400px}
 .pageHeroContent{padding-top:40px}
 .pageHero:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,10,24,.88),rgba(2,10,24,.64) 52%,rgba(2,10,24,.25));z-index:1}
+
+/* universal dark overlay for hero-like sections with images */
+.hero::before,
+.pageHero::before,
+.resultsTease::before,
+.finalCta::before,
+.catalogueHero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2,10,24,0.55), rgba(2,10,24,0.55));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ensure hero content sits above the overlay */
+.heroContent, .pageHeroContent, .finalCta>div:last-child { z-index: 2; position: relative }
 .pageHeroContent{max-width:780px}
 .pageHero .copy{color:#e1edf8;max-width:650px;text-shadow:0 2px 18px rgba(0,0,0,.42)}
 .catalogueHero{background:linear-gradient(115deg,var(--navy),#0c3768 58%,var(--blue))}
