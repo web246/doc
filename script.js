@@ -44,11 +44,11 @@ function linkClickHandler(e){
     e.preventDefault();
     location.hash = '#'+href; // e.g. /services -> #/services
     // close mobile overlays
-    document.querySelector('.links')?.classList.remove('open');
+    document.querySelector('.topLinks')?.classList.remove('open');
     document.getElementById('mega')?.setAttribute('hidden','');
   } else if(href.startsWith('#/')){
     // allow default hash navigation; just close overlays
-    document.querySelector('.links')?.classList.remove('open');
+    document.querySelector('.topLinks')?.classList.remove('open');
     document.getElementById('mega')?.setAttribute('hidden','');
   }
 }
@@ -56,6 +56,19 @@ function linkClickHandler(e){
 document.addEventListener('click', linkClickHandler);
 
 window.addEventListener('hashchange', router);
+
+function setMegaMenu(open){
+  const mega = document.getElementById('mega');
+  const btn = document.getElementById('servicesBtn');
+  if(!mega || !btn) return;
+  if(open){
+    mega.removeAttribute('hidden');
+    btn.setAttribute('aria-expanded','true');
+  } else {
+    mega.setAttribute('hidden','');
+    btn.setAttribute('aria-expanded','false');
+  }
+}
 
 // Basic router mapping
 function router(){
@@ -68,13 +81,13 @@ function router(){
     hookHome();
     return;
   }
-  if(path === '/services'){
-    renderServices(path);
-    return;
-  }
   if(path.startsWith('/services/')){
     const slug = path.replace('/services/','');
     renderServiceDetail(slug);
+    return;
+  }
+  if(path === '/services'){
+    renderServiceList();
     return;
   }
   if(path === '/results'){
@@ -111,9 +124,9 @@ function renderServiceDetail(slug){
   const svc = SERVICES.find(s=>s.slug===slug);
   if(!svc){ document.getElementById('app').innerHTML = '<section class="section"><h2>Service not found</h2></section>'; return; }
   const imageMap = {
-    'carbon-clean-ultra-diagnostics':'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg',
-    'carbon-clean-up-to-1-6l':'381db8_bf0e75a996d34d67a8fe33ede8d0f12d~mv2_d_3024_4032_s_4_2.jpg',
-    'carbon-clean-up-to-2-2l':'381db8_cdd0afa166194b7e9adad3a3bbf27d1c~mv2_d_4032_3024_s_4_2.jpg',
+    'carbon-clean-ultra-diagnostics':'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1800',
+    'carbon-clean-up-to-1-6l':'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1800',
+    'carbon-clean-up-to-2-2l':'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1800',
     'carbon-clean-from-2-2l':'381db8_617d80cf46d74d0daa403c63c5cc02fa~mv2.jpg',
     'commercial-carbon-clean':'381db8_c34669a285f747619e0ff6f936d68946~mv2_d_4032_3024_s_4_2.jpg',
     'two-engine-carbon-clean':'381db8_f8cf84d94a9b4b67b1abbe8ae32d3e70~mv2_d_4032_3024_s_4_2.jpg',
@@ -123,11 +136,12 @@ function renderServiceDetail(slug){
     'computer-diagnostics':'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'
   };
   const img = imageMap[slug] || '381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png';
+  const imageSrc = img.startsWith('http') ? img : `https://static.wixstatic.com/media/${img}/v1/fill/w_1600,h_900,al_c,q_85/${img}`;
   document.getElementById('app').innerHTML = `
-    <section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${img}/v1/fill/w_1600,h_900,al_c,q_85/${img}" alt="${svc.name}"><div class="pageHeroContent"><p class="eyebrow">${svc.category} · NORTHAMPTON</p><h1>${svc.name}</h1><p class="copy">${svc.desc}</p></div></section>
+    <section class="pageHero serviceDetailHero"><img class="heroImage" src="${imageSrc}" alt="${svc.name}"><div class="pageHeroContent"><p class="eyebrow">${svc.category} · NORTHAMPTON</p><h1>${svc.name}</h1><p class="copy">${svc.desc}</p></div></section>
     <section class="section serviceDashboard">
       <aside>
-        <p>SERVICE TELEMETRY</p>
+        <p>SERVICE DETAILS</p>
         ${svc.price && svc.price!=='Enquire' ? `<b>${svc.price}</b>` : '<b>Enquire</b>'}
         <span>⏱ ${svc.duration && svc.duration!=='—' ? svc.duration : 'Duration confirmed on enquiry'}</span>
         <span>📍 Northampton / availability varies</span>
@@ -156,33 +170,27 @@ function renderTemplate(id){
   document.getElementById('app').innerHTML = t.innerHTML;
 }
 
-function renderServices(path){
-  const groups = ['Carbon Cleaning','DPF Services','Diagnostics','Other Services'];
-  const html = [];
-  html.push('<section class="section"><header><p class="eyebrow">SERVICES</p><h2>All Services</h2></header>');
-  groups.forEach(group=>{
-    html.push(`<div class="catalogue"><h3 class="eyebrow">SERVICE GROUP</h3><h2>${group}</h2>`);
-    SERVICES.filter(s=>s.category===group).forEach(s=>{
-      const price = s.price || 'Enquire';
-      html.push(`<a href="#/services/${s.slug}"><span><b>${s.name}</b><small>${s.desc}</small></span><em>${price}${s.duration && s.duration!=='—' ? ' · '+s.duration : ''}</em><span>→</span></a>`);
-    });
-    html.push('</div>');
-  });
-  html.push('</section>');
-  document.getElementById('app').innerHTML = html.join('\n');
+function renderServiceList(){
+  const categories = [...new Set(SERVICES.map(service => service.category))];
+  const groups = categories.map(category => {
+    const services = SERVICES.filter(service => service.category === category).map(service => `
+      <a href="#/services/${service.slug}">
+        <div><b>${service.name}</b><small>${service.desc}</small></div>
+        <em>${service.price}</em><span aria-hidden="true">&rarr;</span>
+      </a>`).join('');
+    return `<div><p class="eyebrow">${category}</p><h2>${category === 'Other Services' ? 'Additional care' : category}</h2><div>${services}</div></div>`;
+  }).join('');
+  document.getElementById('app').innerHTML = `
+    <section class="pageHero catalogueHero"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR &middot; NORTHAMPTON</p><h1>Services that keep you moving.</h1><p class="copy">Choose the care your vehicle needs, then book online or speak to the team for clear advice.</p></div></section>
+    <section class="section catalogue">${groups}</section>`;
 }
 
-function renderResults(){
+function renderResultsLegacy(){
   const categories = [...new Set(SERVICES.map(s=>s.category))];
   const imgs = [
-    '381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png',
-    '381db8_3f48ab4de12b43d0aba5883928871191~mv2.png',
-    '381db8_44aa39333bf44a93b92d3cdfddc79f0b~mv2.png',
-    '381db8_39e5748451a24a18acf6f2a3d60edbbe~mv2_d_4032_3024_s_4_2.jpg',
-    '381db8_c45b1365293c4c579c5c0562c0b380e9~mv2.jpg',
-    '381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg',
-    '381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg',
-    '11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'
+    'assests/difference.jpeg',
+    'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400',
+    'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1400'
   ];
   const base = 'https://static.wixstatic.com/media/';
   let html = '<section class="section results"><header><p class="eyebrow">GALLERY</p><h2>Results</h2></header>';
@@ -190,9 +198,10 @@ function renderResults(){
   html += `<button class="active" data-cat="all">All</button>`;
   categories.forEach(c=>html+=`<button data-cat="${c}">${c}</button>`);
   html += '</div><div>';
-  imgs.forEach(id=>{
-    const src = base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
-    html += `<button data-src="${src}"><img src="${src}" alt="result"><span><b>Carbon Cleaning</b><small>Engine bay — pre-clean inspection</small><svg>🔍</svg></span></button>`;
+  imgs.forEach((id,index)=>{
+    const src = id.startsWith('http') || id.startsWith('assests/') ? id : base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
+    const captions = ['Before & after engine bay', 'Engine clean inspection', 'Engine components assessment'];
+    html += `<button data-src="${src}"><img src="${src}" alt="Carbon cleaning result"><span><b>Carbon Cleaning</b><small>${captions[index]}</small><svg>+</svg></span></button>`;
   });
   html += '</div></div></section>';
   document.getElementById('app').innerHTML = html;
@@ -211,7 +220,20 @@ function openLightbox(src){
 }
 
 function renderAreas(){
-  document.getElementById('app').innerHTML = `<section class="section"><div class="areaMap"><div><p class="eyebrow">WORKSHOP LOCATION</p><h2>310 Wellingborough Road</h2><p>Northampton · NN1 4EP · United Kingdom</p><a class="btn" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton">Get directions</a></div><div class="mapVisual"><svg><!-- map pin --></svg><span>NORTHAMPTON</span><small>52.234° N / 0.902° W</small></div></div></section>`;
+  document.getElementById('app').innerHTML = `<section class="section"><div class="areaMap"><div><p class="eyebrow">WORKSHOP LOCATION</p><h2>310 Wellingborough Road</h2><p>Northampton · NN1 4EP · United Kingdom</p><p class="copy">Visit the workshop for professional engine care, diagnostics and DPF services.</p><a class="btn" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton" target="_blank" rel="noopener noreferrer">Get directions →</a></div><div class="liveMap"><iframe title="Carbon Doctor workshop location" src="https://www.google.com/maps?q=310%20Wellingborough%20Road%2C%20Northampton%2C%20NN1%204EP&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div></section>`;
+}
+
+function renderResults(){
+  const wixImage = id => `https://static.wixstatic.com/media/${id}/v1/fill/w_1400,h_1050,al_c,q_85/${id}`;
+  const results = [
+    {src:'assests/difference.jpeg', title:'Before & after', text:'A clear engine-bay comparison following carbon-cleaning work.', featured:true},
+    {src:'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Engine assessment', text:'A close, professional inspection before the service begins.'},
+    {src:wixImage('381db8_cdd0afa166194b7e9adad3a3bbf27d1c~mv2_d_4032_3024_s_4_2.jpg'), title:'Workshop care', text:'Professional attention to the engine bay.'},
+    {src:wixImage('381db8_617d80cf46d74d0daa403c63c5cc02fa~mv2.jpg'), title:'Carbon cleaning', text:'A focused approach to cleaner-running vehicles.'},
+    {src:wixImage('381db8_f8cf84d94a9b4b67b1abbe8ae32d3e70~mv2_d_4032_3024_s_4_2.jpg'), title:'Vehicle service', text:'Results built around the vehicle in front of us.'}
+  ];
+  document.getElementById('app').innerHTML = `<section class="section results resultsPage"><header><div><p class="eyebrow">CARBON CLEANING RESULTS</p><h2>Proof is in the detail.</h2><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div><aside><b>01 — 05</b><span>Selected workshop results</span><small>Click an image to view it in detail.</small></aside></header><div class="resultsGrid">${results.map(item => `<button class="${item.featured ? 'featured' : ''}" data-src="${item.src}"><img src="${item.src}" alt="${item.title}"><span><b>${item.title}</b><small>${item.text}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div></section>`;
+  document.querySelectorAll('.resultsGrid button').forEach(button => button.addEventListener('click',()=>openLightbox(button.dataset.src)));
 }
 
 function renderFaq(){
@@ -229,8 +251,8 @@ function renderFaq(){
   }));
 }
 
-function renderContact(){
-  const html = `<section class="section contact"><div><p class="eyebrow">CARBON DOCTOR</p><h2>Northampton</h2><p><a href="tel:08000936112">0800 093 6112</a></p><p><a href="mailto:info@carbon.doctor">info@carbon.doctor</a></p><p>310 Wellingborough Road, Northampton</p><a class="textLink" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton">Get directions</a></div><div><form id="contactForm"><label>Name<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Phone<input name="phone"></label><label>Vehicle / registration<input name="vehicle"></label><label>How can we help?<textarea name="message" rows="4"></textarea></label><div style="grid-column:1/-1"><button class="btn" type="submit">Send message</button></div></form><div id="contactSuccess" class="success" style="display:none"><svg>✓</svg><h3>Message prepared.</h3><p>Thank you. For this client demo, submissions are simulated. Call the team for a live enquiry.</p></div></div></section>`;
+function renderContactLegacy(){
+  const html = `<section class="section contact"><div><p class="eyebrow">CARBON DOCTOR</p><h2>Northampton</h2><p><a href="tel:08000936112">0800 093 6112</a></p><p><a href="mailto:info@carbon.doctor">info@carbon.doctor</a></p><p>310 Wellingborough Road, Northampton</p><a class="textLink" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton">Get directions</a></div><div><form id="contactForm"><label>Name<input name="name" required></label><label>Email<input name="email" type="email" required></label><label>Phone<input name="phone"></label><label>Vehicle model<input name="vehicle"></label><label>How can we help?<textarea name="message" rows="4"></textarea></label><div style="grid-column:1/-1"><button class="btn" type="submit">Send message</button></div></form><div id="contactSuccess" class="success" style="display:none"><svg>✓</svg><h3>Message prepared.</h3><p>Thank you. For this client demo, submissions are simulated. Call the team for a live enquiry.</p></div></div></section>`;
   document.getElementById('app').innerHTML = html;
   const form = document.getElementById('contactForm');
   form.addEventListener('submit',e=>{
@@ -238,15 +260,56 @@ function renderContact(){
   });
 }
 
+function renderContact(){
+  document.getElementById('app').innerHTML = `
+    <section class="section contact">
+      <div>
+        <p class="eyebrow">CONTACT CARBON DOCTOR</p><h2>Let’s talk about your vehicle.</h2>
+        <p class="copy">Tell us what’s happening and the team will help you identify the right next step.</p>
+        <div class="contactMeta">
+          <a href="tel:08000936112"><span class="contactIcon">☎</span><span><b>Call us</b><br>0800 093 6112</span></a>
+          <a href="mailto:info@carbon.doctor"><span class="contactIcon">✉</span><span><b>Email us</b><br>info@carbon.doctor</span></a>
+          <p><span class="contactIcon">⌖</span><span><b>Visit the workshop</b><br>310 Wellingborough Road, Northampton, NN1 4EP</span></p>
+        </div>
+        <a class="textLink" href="https://www.google.com/maps/search/?api=1&query=310+Wellingborough+Road+Northampton" target="_blank" rel="noopener noreferrer">Get directions →</a>
+        <div class="contactMap liveMap"><iframe title="Carbon Doctor workshop location" src="https://www.google.com/maps?q=310%20Wellingborough%20Road%2C%20Northampton%2C%20NN1%204EP&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+      </div>
+      <div>
+        <form id="contactForm">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required></label>
+          <label class="phoneField">Phone number<input id="phone" name="phone" type="tel" autocomplete="tel" required></label>
+          <label>Postcode area<select name="postcode" required><option value="" selected disabled>Select your area</option><option>NN1 — Northampton Central</option><option>NN2 — Kingsthorpe</option><option>NN3 — East Northampton</option><option>NN4 — South Northampton</option><option>NN5 — West Northampton</option><option>NN6 — Northamptonshire</option><option>NN7 — Northamptonshire</option><option>NN8 — Wellingborough</option><option>Other UK postcode</option><option>Outside the UK</option></select></label>
+          <label>Vehicle model<input name="vehicle" autocomplete="off" placeholder="e.g. Volkswagen Golf"></label>
+          <label>How can we help?<textarea name="message" rows="4" placeholder="Tell us about the issue or service you need"></textarea></label>
+          <div style="grid-column:1/-1"><button class="btn" type="submit">Send enquiry</button></div>
+        </form>
+        <div id="contactSuccess" class="success" style="display:none"><h3>Thanks — your enquiry is ready.</h3><p>This demo simulates sending a message. Carbon Doctor would follow up to discuss your vehicle.</p></div>
+      </div>
+    </section>`;
+  const phone = document.getElementById('phone');
+  if(window.intlTelInput){
+    window.intlTelInput(phone,{initialCountry:'gb',separateDialCode:true,strictMode:true,nationalMode:false});
+  }
+  document.getElementById('contactForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    const form = event.currentTarget;
+    if(!form.reportValidity()) return;
+    form.style.display='none';
+    document.getElementById('contactSuccess').style.display='block';
+  });
+}
+
 function renderStory(path){
   let title=''; let image=''; let head=''; let body='';
   if(path==='/about'){ title='Restorative engineering, since 2017.'; image='381db8_bf0e75a996d34d67a8fe33ede8d0f12d~mv2_d_3024_4032_s_4_2.jpg'; head='A modern approach to engine care'; body='The hydrogen cleaning system uses deionised water to create hydrogen and oxygen, passed through the engine without dismantling components or using harmful chemical products. The approach is technical, but the service remains personal: understand the vehicle, explain the work and give clear maintenance advice.' }
-  if(path==='/carbon-cleaning'){ title='Give your engine room to breathe.'; image='381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png'; head='Carbon cleaning, without dismantling'; body='Hydrogen and oxygen pass through the engine air intake and leave through the exhaust as a gas, helping remove excess carbon associated with poor running.' }
+  if(path==='/carbon-cleaning'){ title='Give your engine room to breathe.'; image='https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1800'; head='Carbon cleaning, without dismantling'; body='Hydrogen and oxygen pass through the engine air intake and leave through the exhaust as a gas, helping remove excess carbon associated with poor running.' }
   if(path==='/dpf-services'){ title='Restore flow. Protect performance.'; image='381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'; head='Address the restriction properly'; body='Diesel particulate filters capture exhaust particulates, but soot and ash build-up can lead to warning lights, reduced performance and limp mode.' }
   if(path==='/diagnostics'){ title='Evidence before action.'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Find the cause, not just the symptom'; body='Computer diagnostics support a clearer understanding of vehicle faults.' }
   if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
   if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
-  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}" alt="hero"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="https://static.wixstatic.com/media/${image}/v1/fill/w_1200,h_900,al_c,q_85/${image}" alt="story"></div></section><section class="manifesto"><p>PRECISION</p><h2>Professional equipment. / Clear advice. / Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
+  const imageSrc = image.startsWith('http') ? image : `https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}`;
+  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><button class="btn" type="button" onclick="document.getElementById('mega')?.removeAttribute('hidden')">Explore services</button></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
 }
 
 // Booking flow (simplified single-page form)
@@ -264,12 +327,13 @@ function renderBooking(){
     </section>
   </section>`;
   document.getElementById('app').innerHTML = stepsHtml;
-  const state = {step:1,service:serviceQuery||'',date:'',time:'',info:{name:'',phone:'',email:'',vehicle:''}};
+  const state = {step:1,service:serviceQuery||'',date:'',time:'',info:{name:'',phone:'',email:'',postcode:'',vehicle:''}};
   function renderStep(){
     const el = document.getElementById('stepContainer');
     if(state.step===1){
-      el.innerHTML = '<h2>Select service</h2><div class="servicePicker">' + SERVICES.map(s=>`<button data-slug="${s.slug}" class="${s.slug===state.service?'active':''}"><div><b>${s.name}</b><small>${s.desc}</small></div><div><em>${s.price}</em><div>${s.duration}</div></div></button>`).join('') + '</div><nav><button id="nextBtn" class="btn" disabled>Continue</button></nav>';
+      el.innerHTML = '<h2>Select service</h2><div class="servicePicker">' + SERVICES.map(s=>`<button data-slug="${s.slug}" class="${s.slug===state.service?'active':''}"><div><b>${s.name}</b><small>${s.desc}</small></div><div><em>${s.price}</em><div>${s.duration}</div></div></button>`).join('') + `</div><nav><button id="nextBtn" class="btn" ${state.service ? '' : 'disabled'}>Continue</button></nav>`;
       el.querySelectorAll('.servicePicker button').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('.servicePicker button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); state.service=b.dataset.slug; el.querySelector('#nextBtn').disabled=false;}));
+      el.querySelector('#nextBtn').addEventListener('click',()=>{ if(!state.service) return; state.step=2; renderStep(); });
     }
     if(state.step===2){
       el.innerHTML = `<h2>Date & time</h2><label>Date<input type="date" id="bkDate" min="${new Date().toISOString().slice(0,10)}"></label><div class="slots"><button data-time="10:00">10:00</button><button data-time="11:30">11:30</button><button data-time="14:00">14:00</button><button data-time="16:00">16:00</button></div><nav><button id="backBtn" class="btn">Back</button><button id="nextBtn" class="btn" disabled>Continue</button></nav>`;
@@ -280,13 +344,13 @@ function renderBooking(){
       el.querySelector('#nextBtn').addEventListener('click',()=>{ state.step=3; renderStep(); });
     }
     if(state.step===3){
-      el.innerHTML = `<h2>Your details</h2><form id="bkForm" class="formGrid"><label>Full name<input name="name" required></label><label>Phone<input name="phone"></label><label>Email<input name="email" type="email"></label><label>Vehicle / registration<input name="vehicle"></label></form><nav><button id="backBtn" class="btn">Back</button><button id="nextBtn" class="btn">Continue</button></nav>`;
+      el.innerHTML = `<h2>Your details</h2><form id="bkForm" class="formGrid"><label>Full name<input name="name" required></label><label>Phone<input name="phone" required></label><label>Email<input name="email" type="email" required></label><label>Postcode area<select name="postcode" required><option value="" selected disabled>Select your area</option><option>NN1 — Northampton Central</option><option>NN2 — Kingsthorpe</option><option>NN3 — East Northampton</option><option>NN4 — South Northampton</option><option>NN5 — West Northampton</option><option>NN6 — Northamptonshire</option><option>NN7 — Northamptonshire</option><option>NN8 — Wellingborough</option><option>Other UK postcode</option><option>Outside the UK</option></select></label><label>Vehicle model<input name="vehicle" placeholder="e.g. Volkswagen Golf"></label></form><nav><button id="backBtn" class="btn">Back</button><button id="nextBtn" class="btn">Continue</button></nav>`;
       el.querySelector('#backBtn').addEventListener('click',()=>{ state.step=2; renderStep(); });
-      el.querySelector('#nextBtn').addEventListener('click',()=>{ const f = document.getElementById('bkForm'); const fm = new FormData(f); state.info.name=fm.get('name')||''; state.info.phone=fm.get('phone')||''; state.info.email=fm.get('email')||''; state.info.vehicle=fm.get('vehicle')||''; state.step=4; renderStep(); });
+      el.querySelector('#nextBtn').addEventListener('click',()=>{ const f = document.getElementById('bkForm'); if(!f.reportValidity()) return; const fm = new FormData(f); state.info.name=fm.get('name')||''; state.info.phone=fm.get('phone')||''; state.info.email=fm.get('email')||''; state.info.postcode=fm.get('postcode')||''; state.info.vehicle=fm.get('vehicle')||''; state.step=4; renderStep(); });
     }
     if(state.step===4){
       const svc = SERVICES.find(s=>s.slug===state.service);
-      el.innerHTML = `<h2>Review</h2><div class="review"><dl><div><dt>Service</dt><dd>${svc.name}</dd></div><div><dt>Price</dt><dd>${svc.price}</dd></div><div><dt>Preferred slot</dt><dd>${state.date} ${state.time}</dd></div><div><dt>Vehicle</dt><dd>${state.info.vehicle}</dd></div><div><dt>Contact</dt><dd>${state.info.name} · ${state.info.phone} · ${state.info.email}</dd></div></dl><p>This demo does not take payment. Carbon Doctor would confirm the appointment directly.</p></div><nav><button id="backBtn" class="btn">Back</button><button id="confirmBtn" class="btn">Confirm</button></nav>`;
+      el.innerHTML = `<h2>Review</h2><div class="review"><dl><div><dt>Service</dt><dd>${svc.name}</dd></div><div><dt>Price</dt><dd>${svc.price}</dd></div><div><dt>Preferred slot</dt><dd>${state.date} ${state.time}</dd></div><div><dt>Vehicle</dt><dd>${state.info.vehicle}</dd></div><div><dt>Postcode area</dt><dd>${state.info.postcode}</dd></div><div><dt>Contact</dt><dd>${state.info.name} · ${state.info.phone} · ${state.info.email}</dd></div></dl><p>This demo does not take payment. Carbon Doctor would confirm the appointment directly.</p></div><nav><button id="backBtn" class="btn">Back</button><button id="confirmBtn" class="btn">Confirm</button></nav>`;
       el.querySelector('#backBtn').addEventListener('click',()=>{ state.step=3; renderStep(); });
       el.querySelector('#confirmBtn').addEventListener('click',()=>{ state.step=5; renderStep(); });
     }
@@ -316,22 +380,62 @@ function hookHome(){
   const dots = root.querySelectorAll('.dot');
   let i = 0; let pause=false; let timer=null;
   function show(n){ i=(n+slides.length)%slides.length; eyebrow.textContent = 'PROFESSIONAL AUTOMOTIVE CARE · '+slides[i].k; h1.innerHTML = slides[i].title.map(s=>`<span>${s}</span>`).join(''); lead.textContent = slides[i].text + ' From Carbon Doctor in Northampton.'; bg.src = 'https://static.wixstatic.com/media/'+slides[i].img+'/v1/fill/w_1600,h_900,al_c,q_85/'+slides[i].img; dots.forEach(d=>d.classList.toggle('active', +d.dataset.i===i)); }
-  function start(){ timer = setInterval(()=>{ if(!pause) show(i+1); },6000); }
+  function showWithAnimation(n){
+    // update content, then trigger entrance animation
+    show(n);
+    root.classList.remove('animate');
+    requestAnimationFrame(()=>{ root.classList.add('animate'); });
+  }
+  function start(){ timer = setInterval(()=>{ if(!pause) showWithAnimation(i+1); },5000); }
   function stop(){ clearInterval(timer); timer=null; }
   root.addEventListener('mouseenter',()=>pause=true);
   root.addEventListener('mouseleave',()=>pause=false);
-  root.querySelector('#heroPrev').addEventListener('click',()=>show(i-1));
-  root.querySelector('#heroNext').addEventListener('click',()=>show(i+1));
+  const prevBtn = root.querySelector('#heroPrev');
+  const nextBtn = root.querySelector('#heroNext');
+  if(prevBtn) prevBtn.addEventListener('click',()=>showWithAnimation(i-1));
+  if(nextBtn) nextBtn.addEventListener('click',()=>showWithAnimation(i+1));
   dots.forEach(d=>d.addEventListener('click',()=>show(+d.dataset.i)));
-  show(0); start();
+  const ctaBtn = document.getElementById('servicesCtaBtn');
+  ctaBtn?.addEventListener('click',()=>{
+    const mega = document.getElementById('mega');
+    if(mega) mega.removeAttribute('hidden');
+  });
+  showWithAnimation(0); start();
 }
 
 // Mega menu and mobile
-document.getElementById('servicesBtn')?.addEventListener('click',()=>{
-  const mega = document.getElementById('mega'); if(mega.hasAttribute('hidden')) mega.removeAttribute('hidden'); else mega.setAttribute('hidden','');
+const megaToggle = document.getElementById('servicesBtn');
+const megaPanel = document.getElementById('mega');
+
+megaToggle?.addEventListener('click',(event)=>{
+  event.stopPropagation();
+  const isHidden = megaPanel?.hasAttribute('hidden');
+  setMegaMenu(Boolean(isHidden));
 });
+
+megaToggle?.addEventListener('mouseenter',()=>{
+  if(window.innerWidth > 900){ setMegaMenu(true); }
+});
+
+megaPanel?.addEventListener('mouseleave',()=>{
+  if(window.innerWidth > 900){ setMegaMenu(false); }
+});
+
+document.addEventListener('click',(event)=>{
+  const inToggle = event.target.closest('#servicesBtn');
+  const inMega = event.target.closest('#mega');
+  if(!inToggle && !inMega){ setMegaMenu(false); }
+});
+
+document.addEventListener('keydown',(event)=>{
+  if(event.key === 'Escape'){ setMegaMenu(false); }
+});
+
 document.getElementById('menuBtn')?.addEventListener('click',()=>{
-  document.querySelector('.links')?.classList.toggle('open');
+  document.querySelector('.topLinks')?.classList.toggle('open');
+  const mega = document.getElementById('mega');
+  if(!mega) return;
+  if(document.querySelector('.topLinks')?.classList.contains('open')){ mega.setAttribute('hidden',''); }
 });
 
 // Initialize

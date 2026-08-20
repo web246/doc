@@ -9,38 +9,27 @@
   <meta property="og:description" content="Professional carbon cleaning, DPF services and vehicle diagnostics in Northampton." />
   <meta property="og:type" content="website" />
   <title>Carbon Doctor | Engine Carbon Cleaning Northampton</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.15.0/build/css/intlTelInput.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Info bar -->
-  <div class="info">
-    <span>📍 Northampton, UK</span>
-    <a href="tel:08000936112">☎ 0800 093 6112</a>
-    <a href="mailto:info@carbon.doctor">✉ info@carbon.doctor</a>
-    <span class="hours">Mon–Fri 10–6 · Sat 10–5</span>
-  </div>
-
   <!-- Nav -->
   <header class="nav" role="banner">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="logoChip">
-        <img class="logo" src="https://static.wixstatic.com/media/381db8_203fefdd81814cd39710b4285549bf53~mv2.png/v1/fill/w_500,h_236,al_c,q_85/381db8_203fefdd81814cd39710b4285549bf53~mv2.png" alt="Carbon Doctor">
-      </div>
+    <div class="brandWrap">
+      <img class="logo" src="assests/logo.png" alt="Carbon Doctor">
       <div class="brand"><b>Carbon</b><span>Doctor</span></div>
     </div>
-    <nav class="links" aria-label="Primary">
+    <nav class="topLinks" aria-label="Main navigation">
       <a href="#/">Home</a>
       <a href="#/about">About</a>
-      <button id="servicesBtn">Services ▾</button>
+      <button id="servicesBtn" type="button" class="servicesBtn">Services ▾</button>
       <a href="#/results">Results</a>
-      <a href="#/areas-we-cover">Areas We Cover</a>
-      <a href="#/commercial-fleet">Commercial & Fleet</a>
       <a href="#/faq">FAQ</a>
       <a href="#/contact">Contact</a>
-      <a class="navCta" href="#/book">Book a service</a>
     </nav>
     <button class="menuBtn" id="menuBtn" aria-label="Menu">☰</button>
+    <a class="navCta" href="#/book">Book a service</a>
   </header>
 
   <!-- Mega menu -->
@@ -48,23 +37,23 @@
     <div class="megaGrid">
       <div>
         <p>Carbon Cleaning</p>
-        <a href="#/services/carbon-clean-ultra-diagnostics"><span>Carbon Clean Ultra & Diagnostics<small>A 60-minute engine carbon clean paired with computer diagnostics.</small></span><svg></svg></a>
-        <a href="#/services/carbon-clean-up-to-1-6l"><span>Carbon Clean up to 1.6L<small>Hydrogen engine carbon cleaning for cars and vans up to 1.6 litres.</small></span><svg></svg></a>
-        <a href="#/services/carbon-clean-up-to-2-2l"><span>Carbon Clean up to 2.2L<small>Hydrogen engine carbon cleaning for cars and vans up to 2.2 litres.</small></span><svg></svg></a>
+        <a href="#/services/carbon-clean-ultra-diagnostics"><span>Carbon Clean Ultra & Diagnostics</span><svg></svg></a>
+        <a href="#/services/carbon-clean-up-to-1-6l"><span>Carbon Clean up to 1.6L</span><svg></svg></a>
+        <a href="#/services/carbon-clean-up-to-2-2l"><span>Carbon Clean up to 2.2L</span><svg></svg></a>
       </div>
       <div>
         <p>DPF Services</p>
-        <a href="#/services/dpf-wash-flush"><span>DPF Wash & Flush<small>DPF wash and flush service with ECU sensor resetting.</small></span><svg></svg></a>
-        <a href="#/services/dpf-wash-flush-4-2-tdi"><span>DPF Wash & Flush 4.2 TDI<small>Dedicated service for 4.2 TDI vehicles.</small></span><svg></svg></a>
+        <a href="#/services/dpf-wash-flush"><span>DPF Wash & Flush</span><svg></svg></a>
+        <a href="#/services/dpf-wash-flush-4-2-tdi"><span>DPF Wash & Flush 4.2 TDI</span><svg></svg></a>
       </div>
       <div>
         <p>Diagnostics</p>
-        <a href="#/services/computer-diagnostics"><span>Computer Diagnostics<small>Professional computer diagnostics to identify vehicle faults.</small></span><svg></svg></a>
-        <a href="#/services/drivability-problems"><span>Drivability Problems<small>Investigation of performance, response and running concerns.</small></span><svg></svg></a>
+        <a href="#/services/computer-diagnostics"><span>Computer Diagnostics</span><svg></svg></a>
+        <a href="#/services/drivability-problems"><span>Drivability Problems</span><svg></svg></a>
       </div>
       <div>
         <p>Other Services</p>
-        <a href="#/services/chemical-inlet-manifold-carbon-clean"><span>Chemical Inlet Manifold Carbon Clean<small>Targeted chemical cleaning for inlet manifold carbon deposits.</small></span><svg></svg></a>
+        <a href="#/services/chemical-inlet-manifold-carbon-clean"><span>Chemical Inlet Manifold Carbon Clean</span><svg></svg></a>
       </div>
     </div>
   </div>
@@ -75,7 +64,7 @@
   <!-- Footer -->
   <footer class="footerGrid">
     <div>
-      <div class="logoChip"><img class="logo" src="https://static.wixstatic.com/media/381db8_203fefdd81814cd39710b4285549bf53~mv2.png/v1/fill/w_500,h_236,al_c,q_85/381db8_203fefdd81814cd39710b4285549bf53~mv2.png" alt="Carbon Doctor"></div>
+      <div class="logoChip"><img class="logo" src="assests/logo.png" alt="Carbon Doctor"></div>
       <p>Professional engine carbon cleaning, DPF services and diagnostics in Northampton.</p>
     </div>
     <div>
@@ -94,10 +83,10 @@
     </div>
     <div>
       <h4>Contact</h4>
-      <a href="tel:08000936112">0800 093 6112</a>
-      <a href="mailto:info@carbon.doctor">info@carbon.doctor</a>
-      <p>310 Wellingborough Road, Northampton · NN1 4EP · UK</p>
-      <a href="https://www.facebook.com/Carbon.Doctor.TM/">Facebook ↗</a>
+      <a href="tel:08000936112"><span class="footerIcon">☎</span>0800 093 6112</a>
+      <a href="mailto:info@carbon.doctor"><span class="footerIcon">✉</span>info@carbon.doctor</a>
+      <p><span class="footerIcon">⌖</span>310 Wellingborough Road, Northampton · NN1 4EP · UK</p>
+      <a href="https://www.facebook.com/Carbon.Doctor.TM/" target="_blank" rel="noopener noreferrer"><span class="footerIcon">f</span>Facebook ↗</a>
     </div>
   </footer>
   <div class="footerBottom">© <span id="year"></span> Carbon Doctor Ltd. · <a href="#/privacy">Privacy Policy</a> · <a href="#/terms">Terms & Conditions</a></div>
@@ -118,14 +107,40 @@
         <small>Serving Northampton & surrounding areas</small>
       </div>
       <div class="heroControls">
-        <button id="heroPrev">◀</button>
         <div class="dot active" data-i="0"></div>
         <div class="dot" data-i="1"></div>
         <div class="dot" data-i="2"></div>
         <div class="dot" data-i="3"></div>
-        <button id="heroNext">▶</button>
       </div>
     </section>
+
+    <!-- Brand logos loop -->
+    <div class="logoLoop" aria-hidden="false">
+      <div class="logoTrack">
+        <div class="logoItem"><img src="assests/Audi.png" alt="Audi"></div>
+        <div class="logoItem"><img src="assests/Bentley.png" alt="Bentley"></div>
+        <div class="logoItem"><img src="assests/BMW.png" alt="BMW"></div>
+        <div class="logoItem"><img src="assests/Citroen.png" alt="Citroen"></div>
+        <div class="logoItem"><img src="assests/Ford.png" alt="Ford"></div>
+        <div class="logoItem"><img src="assests/Land-Rover.png" alt="Land Rover"></div>
+        <div class="logoItem"><img src="assests/Mercedes-Benz.png" alt="Mercedes"></div>
+        <div class="logoItem"><img src="assests/MINI.png" alt="MINI"></div>
+        <div class="logoItem"><img src="assests/Rolls-Royce.png" alt="Rolls-Royce"></div>
+        <div class="logoItem"><img src="assests/Volkswagen.png" alt="Volkswagen"></div>
+
+        <!-- duplicate for seamless loop -->
+        <div class="logoItem"><img src="assests/Audi.png" alt="Audi"></div>
+        <div class="logoItem"><img src="assests/Bentley.png" alt="Bentley"></div>
+        <div class="logoItem"><img src="assests/BMW.png" alt="BMW"></div>
+        <div class="logoItem"><img src="assests/Citroen.png" alt="Citroen"></div>
+        <div class="logoItem"><img src="assests/Ford.png" alt="Ford"></div>
+        <div class="logoItem"><img src="assests/Land-Rover.png" alt="Land Rover"></div>
+        <div class="logoItem"><img src="assests/Mercedes-Benz.png" alt="Mercedes"></div>
+        <div class="logoItem"><img src="assests/MINI.png" alt="MINI"></div>
+        <div class="logoItem"><img src="assests/Rolls-Royce.png" alt="Rolls-Royce"></div>
+        <div class="logoItem"><img src="assests/Volkswagen.png" alt="Volkswagen"></div>
+      </div>
+    </div>
 
     <div class="trustStrip">
       <div><svg></svg>Professional service</div>
@@ -147,7 +162,7 @@
     <section class="section services">
       <header><p class="eyebrow">OUR EXPERTISE</p><h2>Services Built Around Your Vehicle</h2></header>
       <div class="cardGrid">
-        <article class="serviceCard"><img src="https://static.wixstatic.com/media/381db8_3f48ab4de12b43d0aba5883928871191~mv2.png/v1/fill/w_1200,h_900,al_c,q_85/381db8_3f48ab4de12b43d0aba5883928871191~mv2.png" alt="carbon"><div><h3>Carbon Cleaning</h3><p>Hydrogen-based cleaning without dismantling engine parts.</p><a href="#/carbon-cleaning">Explore <span>→</span></a></div></article>
+        <article class="serviceCard"><img src="https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=85&amp;w=1200" alt="Mechanic working on a car engine in a workshop"><div><h3>Carbon Cleaning</h3><p>Hydrogen-based cleaning without dismantling engine parts.</p><a href="#/carbon-cleaning">Explore <span>→</span></a></div></article>
         <article class="serviceCard"><img src="https://static.wixstatic.com/media/381db8_c45b1365293c4c579c5c0562c0b380e9~mv2.jpg/v1/fill/w_1200,h_900,al_c,q_85/381db8_c45b1365293c4c579c5c0562c0b380e9~mv2.jpg" alt="filter"><div><h3>DPF Services</h3><p>Professional wash and flush to address blocked DPF problems.</p><a href="#/dpf-services">Explore <span>→</span></a></div></article>
         <article class="serviceCard"><img src="https://static.wixstatic.com/media/11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg/v1/fill/w_1600,h_900,al_c,q_85/11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg" alt="diagnostics"><div><h3>Vehicle Diagnostics</h3><p>Clear fault investigation for warning lights and running issues.</p><a href="#/diagnostics">Explore <span>→</span></a></div></article>
       </div>
@@ -157,21 +172,21 @@
     <section class="section darkFeature">
       <div>
         <p class="eyebrow dark">HYDROGEN CARBON CLEANING</p>
-        <h2>Give Your Engine / Room to Breathe</h2>
+        <h2>Give Your Engine Room to Breathe</h2>
         <p>The system uses deionised water to create hydrogen and oxygen, passed through the air intake and exhaust as a gas to help remove excess carbon. No dismantling or harmful chemical products are required.</p>
         <div class="benefits">
-          <span><svg></svg>Smoother performance</span>
-          <span><svg></svg>Lower emissions</span>
-          <span><svg></svg>Potential fuel savings</span>
-          <span><svg></svg>Help avoid costly issues</span>
+          <div class="benefit b1"><svg></svg><div class="benefitText">Smoother performance</div></div>
+          <div class="benefit b2"><svg></svg><div class="benefitText">Potential fuel savings</div></div>
+          <div class="benefit b3"><svg></svg><div class="benefitText">Lower emissions</div></div>
+          <div class="benefit b4"><svg></svg><div class="benefitText">Help avoid costly issues</div></div>
         </div>
         <a class="btn" href="#/carbon-cleaning">Explore carbon cleaning</a>
       </div>
-      <div><img src="https://static.wixstatic.com/media/381db8_3f48ab4de12b43d0aba5883928871191~mv2.png/v1/fill/w_1200,h_900,al_c,q_85/381db8_3f48ab4de12b43d0aba5883928871191~mv2.png" alt="carbon"></div>
+      <div class="featureImage"><img src="https://images.unsplash.com/photo-1680534900875-d56330837368?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Mechanic inspecting engine components in a workshop"></div>
     </section>
 
     <section class="section resultsTease">
-      <img src="https://static.wixstatic.com/media/381db8_39e5748451a24a18acf6f2a3d60edbbe~mv2_d_4032_3024_s_4_2.jpg/v1/fill/w_981,h_765,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/381db8_39e5748451a24a18acf6f2a3d60edbbe~mv2_d_4032_3024_s_4_2.jpg" alt="results">
+      <img src="assests/difference.jpeg" alt="results">
       <div><p class="eyebrow">REAL WORK · REAL VEHICLES</p><h2>See the Difference</h2><a class="btn" href="#/results">View our results</a></div>
     </section>
 
@@ -200,6 +215,7 @@
   <script type="text/template" id="tmpl-legal"></script>
   <script type="text/template" id="tmpl-story"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.15.0/build/js/intlTelInput.min.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>
