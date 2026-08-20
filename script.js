@@ -38,11 +38,16 @@ function linkClickHandler(e){
   const a = e.target.closest('a');
   if(!a) return;
   const href = a.getAttribute('href');
-  if(href && href.startsWith('/')){
+  if(!href) return;
+  // convert absolute root paths to hash routes when clicked (helps GitHub Pages)
+  if(href.startsWith('/')){
     e.preventDefault();
-    history.pushState(null,'',href);
-    router();
-    // close mobile menu
+    location.hash = '#'+href; // e.g. /services -> #/services
+    // close mobile overlays
+    document.querySelector('.links')?.classList.remove('open');
+    document.getElementById('mega')?.setAttribute('hidden','');
+  } else if(href.startsWith('#/')){
+    // allow default hash navigation; just close overlays
     document.querySelector('.links')?.classList.remove('open');
     document.getElementById('mega')?.setAttribute('hidden','');
   }
@@ -50,11 +55,11 @@ function linkClickHandler(e){
 
 document.addEventListener('click', linkClickHandler);
 
-window.addEventListener('popstate', router);
+window.addEventListener('hashchange', router);
 
 // Basic router mapping
 function router(){
-  const path = location.pathname.replace(/\/$/,'') || '/';
+  const path = (location.hash.slice(1).replace(/\/$/,'') || '/');
   const app = document.getElementById('app');
   document.getElementById('year').textContent = new Date().getFullYear();
   if(path === '/'){
@@ -62,8 +67,13 @@ function router(){
     hookHome();
     return;
   }
-  if(path === '/services' || path.startsWith('/services')){
+  if(path === '/services'){
     renderServices(path);
+    return;
+  }
+  if(path.startsWith('/services/')){
+    const slug = path.replace('/services/','');
+    renderServiceDetail(slug);
     return;
   }
   if(path === '/results'){
@@ -96,6 +106,49 @@ function router(){
   document.getElementById('app').innerHTML = '<section class="section"><h2>Page not found</h2><p class="copy">The requested page could not be found.</p></section>';
 }
 
+function renderServiceDetail(slug){
+  const svc = SERVICES.find(s=>s.slug===slug);
+  if(!svc){ document.getElementById('app').innerHTML = '<section class="section"><h2>Service not found</h2></section>'; return; }
+  const imageMap = {
+    'carbon-clean-ultra-diagnostics':'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg',
+    'carbon-clean-up-to-1-6l':'381db8_bf0e75a996d34d67a8fe33ede8d0f12d~mv2_d_3024_4032_s_4_2.jpg',
+    'carbon-clean-up-to-2-2l':'381db8_cdd0afa166194b7e9adad3a3bbf27d1c~mv2_d_4032_3024_s_4_2.jpg',
+    'carbon-clean-from-2-2l':'381db8_617d80cf46d74d0daa403c63c5cc02fa~mv2.jpg',
+    'commercial-carbon-clean':'381db8_c34669a285f747619e0ff6f936d68946~mv2_d_4032_3024_s_4_2.jpg',
+    'two-engine-carbon-clean':'381db8_f8cf84d94a9b4b67b1abbe8ae32d3e70~mv2_d_4032_3024_s_4_2.jpg',
+    'hgv-carbon-clean':'381db8_c8ac6d9b88d2460aa88264bd126801c5~mv2_d_4032_3024_s_4_2.jpg',
+    'dpf-wash-flush':'381db8_c45b1365293c4c579c5c0562c0b380e9~mv2.jpg',
+    'dpf-wash-flush-4-2-tdi':'381db8_5b7dac0a69a8420fb852294a3d6d8033~mv2.jpg',
+    'computer-diagnostics':'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'
+  };
+  const img = imageMap[slug] || '381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png';
+  document.getElementById('app').innerHTML = `
+    <section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${img}/v1/fill/w_1600,h_900,al_c,q_85/${img}" alt="${svc.name}"><div class="pageHeroContent"><p class="eyebrow">${svc.category} · NORTHAMPTON</p><h1>${svc.name}</h1><p class="copy">${svc.desc}</p></div></section>
+    <section class="section serviceDashboard">
+      <aside>
+        <p>SERVICE TELEMETRY</p>
+        ${svc.price && svc.price!=='Enquire' ? `<b>${svc.price}</b>` : '<b>Enquire</b>'}
+        <span>⏱ ${svc.duration && svc.duration!=='—' ? svc.duration : 'Duration confirmed on enquiry'}</span>
+        <span>📍 Northampton / availability varies</span>
+        <a class="btn" href="#/book?service=${svc.slug}">Book this service</a>
+      </aside>
+      <main>
+        <p class="eyebrow">SERVICE OVERVIEW</p>
+        <h2>A precise intervention for your vehicle.</h2>
+        <p class="copy">${svc.desc} Carbon Doctor will confirm suitability for your vehicle before work begins and explain the process clearly.</p>
+        <h3>What to expect</h3>
+        <ul class="process">
+          <li><b>01</b><h3>Service and vehicle details confirmed</h3></li>
+          <li><b>02</b><h3>Professional inspection and service delivery</h3></li>
+          <li><b>03</b><h3>Clear findings and maintenance guidance</h3></li>
+        </ul>
+        <h3>Key benefits</h3>
+        <ul class="checkList"><li>Professional equipment and process</li><li>Service selected around engine and vehicle type</li><li>Clear, customer-focused explanation</li></ul>
+      </main>
+    </section>
+    <section class="section related"><p class="eyebrow">RELATED SERVICES</p><h2>Continue exploring</h2><div>` + SERVICES.filter(s=>s.category===svc.category && s.slug!==svc.slug).slice(0,3).map(s=>`<a href="#/services/${s.slug}"><div><b>${s.name}</b><small>${s.desc}</small></div><div><em>${s.price}</em></div></a>`).join('') + `</div></section>`;
+}
+
 function renderTemplate(id){
   const t = document.getElementById(id);
   if(!t) return;
@@ -110,7 +163,7 @@ function renderServices(path){
     html.push(`<div class="catalogue"><h3 class="eyebrow">SERVICE GROUP</h3><h2>${group}</h2>`);
     SERVICES.filter(s=>s.category===group).forEach(s=>{
       const price = s.price || 'Enquire';
-      html.push(`<a href="/services/${s.slug}"><span><b>${s.name}</b><small>${s.desc}</small></span><em>${price}${s.duration && s.duration!=='—' ? ' · '+s.duration : ''}</em><span>→</span></a>`);
+      html.push(`<a href="#/services/${s.slug}"><span><b>${s.name}</b><small>${s.desc}</small></span><em>${price}${s.duration && s.duration!=='—' ? ' · '+s.duration : ''}</em><span>→</span></a>`);
     });
     html.push('</div>');
   });
@@ -192,12 +245,16 @@ function renderStory(path){
   if(path==='/diagnostics'){ title='Evidence before action.'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Find the cause, not just the symptom'; body='Computer diagnostics support a clearer understanding of vehicle faults.' }
   if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
   if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
-  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}" alt="hero"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="btn" href="/services">Explore services</a></div></section><section class="section editorial"><div><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="https://static.wixstatic.com/media/${image}/v1/fill/w_1200,h_900,al_c,q_85/${image}" alt="story"></div></section><section class="manifesto"><p>PRECISION</p><h2>Professional equipment. / Clear advice. / Customer-focused care.</h2><a class="textLink" href="/book">Choose a service →</a></section>`;
+  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}" alt="hero"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="https://static.wixstatic.com/media/${image}/v1/fill/w_1200,h_900,al_c,q_85/${image}" alt="story"></div></section><section class="manifesto"><p>PRECISION</p><h2>Professional equipment. / Clear advice. / Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
 }
 
 // Booking flow (simplified single-page form)
 function renderBooking(){
-  let serviceQuery = new URLSearchParams(location.search).get('service');
+  // Read `service` query parameter from hash (e.g. #/book?service=slug)
+  let serviceQuery = '';
+  const hash = location.hash || '';
+  const qi = hash.indexOf('?');
+  if(qi !== -1){ serviceQuery = new URLSearchParams(hash.slice(qi+1)).get('service') || ''; }
   const stepsHtml = `
   <section class="booking">
     <header><p class="eyebrow">CARBON DOCTOR · SECURE BOOKING DEMO</p><h1>Book your service</h1><div class="progress"><span class="active"></span><span></span><span></span><span></span><span></span></div></header>
