@@ -59,7 +59,8 @@ window.addEventListener('hashchange', router);
 
 // Basic router mapping
 function router(){
-  const path = (location.hash.slice(1).replace(/\/$/,'') || '/');
+  const raw = location.hash.slice(1) || '/';
+  const path = (raw.split('?')[0].replace(/\/$/,'') || '/');
   const app = document.getElementById('app');
   document.getElementById('year').textContent = new Date().getFullYear();
   if(path === '/'){
