@@ -308,7 +308,70 @@ function renderStory(path){
   if(path==='/dpf-services'){ title='Restore flow. Protect performance.'; image='381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'; head='Address the restriction properly'; body='Diesel particulate filters capture exhaust particulates, but soot and ash build-up can lead to warning lights, reduced performance and limp mode.' }
   if(path==='/diagnostics'){ title='Evidence before action.'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Find the cause, not just the symptom'; body='Computer diagnostics support a clearer understanding of vehicle faults.' }
   if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
-  if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
+  if(path==='/privacy' || path==='/terms'){
+    if(path==='/privacy'){
+      title = 'Privacy Policy';
+      image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg';
+      head='Your information';
+      body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.';
+    } else {
+      // Render full Terms of Business page
+      document.getElementById('app').innerHTML = `
+        <section class="section"><div>
+          <p class="eyebrow">TERMS OF BUSINESS</p>
+          <h1>Carbon Doctor Ltd — Terms of Business</h1>
+          <p>Innovative carbon clean solution reduces emissions, improves performance and enhances driveability — in just 30 minutes.</p>
+          <ul>
+            <li>Effects are immediate</li>
+            <li>Revitalises inlet system, cylinder head and exhaust manifold</li>
+            <li>Smoother, more powerful delivery of performance</li>
+            <li>Lower emissions and quieter engine</li>
+            <li>No chemicals used</li>
+            <li>Approx. 30 mins for each clean</li>
+            <li>Less maintenance required</li>
+            <li>CE marked product</li>
+          </ul>
+
+          <h2>Our contract with you</h2>
+          <p>By asking Carbon Doctor to carry out a motor carbon clean on your vehicle you agree that our work shall be governed by these terms and conditions. Our contract with you is formed at the time of you making your appointment with us online, over the phone or in person. By handing over your vehicle and key to our technician you agree to these Terms of Business.</p>
+
+          <h3>Declaration</h3>
+          <p>I have read and understood Carbon Doctor Terms of Business as expressed in this contract and agree to my vehicle (registration number below) to have its engine cleaned using the engine carbon clean service.</p>
+          <p>Customer Name<br>Vehicle Registration Number<br>Customer Address<br>Vehicle Mileage<br>Appointment Date<br>Customer Telephone<br>Customer Email<br>Signed by Vehicle Owner (or representative)<br>Date</p>
+
+          <h3>1. Risk and faults</h3>
+          <p>In the course of the motor carbon clean process, a controlled volume of hydrogen is introduced into the engine through your vehicle's air intake. Your vehicle may suffer an engine fault through no fault of our technician or motor carbon clean service. You acknowledge that risk. If that happens, we will ask if you would like us to restart your vehicle's engine. If your vehicle will not restart you will be liable for any costs incurred in having the vehicle recovered and repaired subject to clauses 6 & 8 below.</p>
+
+          <h3>2. Manufacturer warranty</h3>
+          <p>Please be aware that having your motor cleaned using the carbon clean process may result in your vehicle manufacturer's warranty being invalidated. You acknowledge that risk. If you have any questions regarding your manufacturer's warranty please contact your manufacturer. Carbon Doctor holds certificates of no harm from a number of motor manufacturers — for information please call 0800 093 6112 or write to Customer Services c/o Carbon Doctor or email info@carbon.doctor.</p>
+
+          <h3>3. Payments up front and in part</h3>
+          <p>You agree to be responsible for the full cost of our motor carbon/DPF clean work on your vehicle. In making arrangements to deliver our service to you, we incur business costs. You agree that we can immediately charge 50% (i) for or in any respect of these arrangements or costs and/or (ii) an up front part payment in respect of our service.</p>
+
+          <h3>4. Performance expectations</h3>
+          <p>The improvement to emissions and/or additional motor power and/or fuel economy and/or future engine component reliability depends upon each individual motor, the motor's mileage and hours used, the fuel and lubricants used and the style of driving. Carbon Doctor can make no guarantee with regards to these benefits or the amounts of carbon that can be safely removed in the 30 minute procedure.</p>
+
+          <h3>5. Pre-existing damage</h3>
+          <p>A diagrammatic record of visible damage existing on your vehicle will be made by our technician before starting work on your vehicle. We exclude all liability for repair of damage, whether visible or not, existing before we began to work on your vehicle.</p>
+
+          <h3>6. Service delivery & complaints</h3>
+          <p>We will perform our service to the best of our ability at a time and location to be agreed between us. We reserve the right to change our appointment time with you for any reason and will notify you in advance of any change. If you have a complaint about our service, please call 0800 093 6112 or write to Customer Services, Carbon Doctor. If we damage your vehicle, we can arrange its repair at no cost to you. If without our prior written approval you organise a repair yourself, we do not guarantee to pay the costs you incur.</p>
+
+          <h3>7. Liability limits</h3>
+          <p>You acknowledge that the cost to us of cleaning your vehicle's motor in the event that we damage it is likely to exceed the amount we are paid for our service. Our total liability to you for any damage we cause is limited to the total cost of repairing that damage. We do not reimburse indirect or consequential losses (loss of income, loss of use, rental costs, loss of business or profits) except where required by law. Nothing limits our liability for fraud or death or personal injury caused by our negligence.</p>
+
+          <h3>8. DPF cleaning</h3>
+          <p>With respect to DPF cleaning, we are contracted to wash & flush the filter to the best of our ability. We carry OBD diagnostics for insight into your DPF's health only and are under no obligation to inform you of findings unless you request a pre-paid diagnostics check. We can only wash & flush a DPF on a running, healthy engine. If the engine is not able to run, we reserve the right to collect 50% of the agreed booking to cover travel, time and equipment transport. We reserve the right to stop the wash & flush if we find anything that could cause harm or damage.</p>
+
+          <h3>9. Miscellaneous</h3>
+          <p>The only language offered for any contract is English. We reserve the right to update our Terms of Business at any point. Date of issue: 1st August 2017.</p>
+
+          <h3>Contact</h3>
+          <p>Carbon Doctor Ltd<br>167-169 Great Portland Street, 5th Floor, London W1W 5PF<br>Tel: 0800 093 6112<br>Email: info@carbon.doctor</p>
+        </div></section>`;
+      return;
+    }
+  }
   const imageSrc = image.startsWith('http') || image.startsWith('assets/') ? image : `https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}`;
   document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="ghost btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
 }
