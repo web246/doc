@@ -23,11 +23,12 @@ a{word-break:break-word}
 /* nav */
 .nav{height:88px;position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;max-width:1420px;width:calc(100% - 4vw);margin:0;background:rgba(248,251,254,.94);display:flex;align-items:center;justify-content:space-between;padding:8px 3vw;border:1px solid rgba(216,225,235,.9);border-radius:18px;box-shadow:0 14px 34px rgba(7,21,47,.12);backdrop-filter:blur(16px)}
 .brandWrap{display:flex;align-items:center;gap:10px}
+.brandText{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .brand{color:var(--navy);display:flex;flex-direction:row;align-items:center;gap:6px;font-size:24px;font-weight:800;line-height:1;letter-spacing:-.04em}
 .brand b{color:var(--steel);font-weight:800;font-size:24px}
 .brand span{color:var(--blue);font-weight:800;font-size:24px}
 .logoChip{background:transparent;border-radius:0;padding:0;display:inline-flex;align-items:center;box-shadow:none}
-.logo{height:74px;width:auto;object-fit:contain;display:block;background:transparent}
+.logo{height:74px;width:auto;object-fit:contain;display:block;background:transparent;filter:drop-shadow(0 8px 20px rgba(2,10,24,0.08));}
 .footerGrid .logoChip{margin-bottom:16px}
 .footerGrid .logo{height:88px}
 .footer{background:var(--carbon);color:#fff}
@@ -137,8 +138,8 @@ a{word-break:break-word}
 .serviceDetailHero .pageHeroContent{padding-top:72px}
 
 /* trust strip */
-.trustStrip{background:#dfe3e6;color:#2b3137;display:grid;grid-template-columns:repeat(4,1fr);padding:5px 7vw;border-top:1px solid #c8ced3}
-.trustStrip div{display:flex;align-items:center;justify-content:center;gap:6px;border-right:1px solid #c0c7cc;font-size:7px;text-transform:uppercase;padding:4px 0;letter-spacing:.1em;white-space:nowrap}
+.trustStrip{background:#dfe3e6;color:#2b3137;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 7vw;border-top:1px solid #c8ced3}
+.trustStrip div{display:flex;align-items:center;justify-content:center;gap:8px;border-right:1px solid #c0c7cc;font-size:12px;text-transform:uppercase;padding:8px 0;letter-spacing:.12em;white-space:nowrap}
 .trustStrip div:last-child{border:0}
 .trustStrip svg{width:12px;color:#00c2ff;opacity:.9;flex-shrink:0}
 
@@ -161,8 +162,8 @@ a{word-break:break-word}
   .logoLoop{padding:12px 5vw}
   .logoItem img{height:48px}
   .logoTrack{gap:24px;animation-duration:32s}
-  .trustStrip{padding:4px 5vw}
-  .trustStrip div{font-size:6px;letter-spacing:.08em;gap:4px;white-space:nowrap}
+  .trustStrip{padding:6px 5vw}
+  .trustStrip div{font-size:10px;letter-spacing:.08em;gap:6px;white-space:nowrap}
   .mega{left:0;transform:none;width:100%;top:96px;border-radius:0;padding:10px 5vw 12px;max-height:none}
   .megaGrid{grid-template-columns:1fr;gap:8px}
   .mega a{padding:7px 0}
