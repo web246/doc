@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
-:root{--navy:#07152f;--blue:#087fd1;--electric:#1ba8f2;--steel:#68788c;--ink:#0a1628;--mist:#f3f7fb;--line:#d8e1eb}
+:root{--navy:#07152f;--blue:#087fd1;--electric:#1ba8f2;--steel:#68788c;--ink:#0a1628;--mist:#f3f7fb;--line:#d8e1eb;--hero-blue: rgba(8,127,209,0.36)}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -98,6 +98,23 @@ a{word-break:break-word}
   z-index: 1;
   pointer-events: none;
 }
+
+/* Make the hero slider more "epic" with a blue-tinted overlay and clearer text */
+.hero::before{ /* override universal overlay with blue-tinted gradient */
+  background: linear-gradient(180deg, var(--hero-blue), rgba(2,10,24,0.48));
+}
+
+/* subtly enhance hero image clarity and scale for cinematic feel */
+.heroBg, .heroImage{transition:transform 8s ease,filter .6s ease}
+.heroBg.active,.heroImage{transform:scale(1.04);filter:contrast(1.06) saturate(1.06)}
+
+/* make hero text pop */
+.heroContent h1{font-weight:900;text-shadow:0 12px 30px rgba(2,10,40,0.72);letter-spacing:-.06em}
+.heroContent .lead{color:#dff6ff}
+.heroContent .eyebrow{color:#d6f0ff}
+
+/* slightly larger CTA on hero for impact */
+.heroContent .btn{padding:18px 26px;font-size:12px}
 
 /* ensure hero content sits above the overlay */
 .heroContent, .pageHeroContent, .finalCta>div:last-child { z-index: 2; position: relative }
