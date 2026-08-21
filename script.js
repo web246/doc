@@ -188,7 +188,7 @@ function renderServiceList(){
 function renderResultsLegacy(){
   const categories = [...new Set(SERVICES.map(s=>s.category))];
   const imgs = [
-    'assests/difference.jpeg',
+    'assets/difference.jpeg',
     'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400',
     'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1400'
   ];
@@ -199,7 +199,7 @@ function renderResultsLegacy(){
   categories.forEach(c=>html+=`<button data-cat="${c}">${c}</button>`);
   html += '</div><div>';
   imgs.forEach((id,index)=>{
-    const src = id.startsWith('http') || id.startsWith('assests/') ? id : base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
+    const src = id.startsWith('http') || id.startsWith('assets/') ? id : base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
     const captions = ['Before & after engine bay', 'Engine clean inspection', 'Engine components assessment'];
     html += `<button data-src="${src}"><img src="${src}" alt="Carbon cleaning result"><span><b>Carbon Cleaning</b><small>${captions[index]}</small><svg>+</svg></span></button>`;
   });
