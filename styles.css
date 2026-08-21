@@ -1,10 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
-:root{--navy:#07152f;--blue:#087fd1;--electric:#1ba8f2;--steel:#68788c;--carbon:var(--steel);--carbon-bright:#7e8b95;--ink:#0a1628;--mist:#f3f7fb;--line:#d8e1eb;--hero-blue: rgba(8,127,209,0.36)}
+:root{--navy:#0f2b3d;--blue:#0b79c1;--electric:#1fa6f3;--steel:#6e7f8b;--carbon:var(--steel);--carbon-bright:#8aa0ab;--ink:#071526;--mist:#f6f8fa;--line:#d9e3ea;--hero-blue: rgba(11,121,193,0.22)}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;padding-top:120px;background:var(--mist);color:var(--ink);font-family:'Manrope',sans-serif}
+body{margin:0;padding-top:120px;background:var(--mist);color:var(--ink);font-family:'Lato',sans-serif}
+
+/* enforce a uniform Lato font across components */
+html,body,input,textarea,select,button,a{font-family:'Lato',sans-serif !important}
 h1,h2,h3{letter-spacing:-.04em;margin:0;color:var(--blue);font-weight:800}
 button,a{transition:.2s ease}
 a{text-decoration:none;color:inherit}
@@ -145,8 +148,8 @@ a{word-break:break-word}
 .trustStrip svg{width:12px;color:#00c2ff;opacity:.9;flex-shrink:0}
 
 /* logo loop */
-.logoLoop{background:#fff;padding:18px 7vw;border-bottom:1px solid #e6e9ec}
-.logoLoop{background:#fff;padding:18px 7vw;border-bottom:1px solid #e6e9ec;overflow:hidden}
+.logoLoop{background:var(--mist);padding:18px 7vw;border-bottom:1px solid var(--line)}
+.logoLoop{background:var(--mist);padding:18px 7vw;border-bottom:1px solid var(--line);overflow:hidden}
 .logoTrack{display:flex;align-items:center;gap:60px;min-height:72px;will-change:transform;white-space:nowrap}
 .logoItem{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:6px 0}
 .logoItem img{height:72px;width:auto;display:block;object-fit:contain;background:transparent;border-radius:0;filter:none;opacity:1;transition:transform .25s ease,opacity .25s ease}
