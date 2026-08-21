@@ -217,5 +217,37 @@
 
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.15.0/build/js/intlTelInput.min.js" defer></script>
   <script src="script.js" defer></script>
+  <script>
+    (function(){
+      function applyPreview(data){
+        try{
+          if(!data) return;
+          const hero = (data.site && data.site.hero) || data.hero || {};
+          const eyebrow = hero.eyebrow || '';
+          const h1 = hero.h1 || [];
+          const lead = hero.lead || '';
+          const elEyebrow = document.querySelector('.hero .eyebrow');
+          if(elEyebrow) elEyebrow.textContent = eyebrow;
+          const elH1 = document.querySelector('.hero h1');
+          if(elH1 && h1.length) elH1.innerHTML = h1.map(s=>`<span>${s}</span>`).join('');
+          const elLead = document.querySelector('.hero .lead');
+          if(elLead) elLead.textContent = lead;
+        }catch(e){ console.warn('preview apply failed', e); }
+      }
+
+      window.addEventListener('message', (e)=>{
+        try{
+          if(e.data && e.data.type === 'preview-update'){
+            window.__previewState = e.data.data;
+            applyPreview(e.data.data);
+          }
+        }catch(err){}
+      });
+
+      document.addEventListener('DOMContentLoaded', ()=>{
+        if(window.__previewState) applyPreview(window.__previewState);
+      });
+    })();
+  </script>
 </body>
 </html>

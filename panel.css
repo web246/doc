@@ -1,11 +1,45 @@
-*{box-sizing:border-box;font-family:Segoe UI,Arial,Helvetica,sans-serif}
-body{margin:0;display:flex;height:100vh}
-#sidebar{width:220px;background:#0b3d91;color:#fff;padding:16px}
-#sidebar h2{margin:0 0 12px}
-#sidebar nav button{display:block;width:100%;margin:6px 0;padding:8px;background:transparent;border:1px solid rgba(255,255,255,0.08);color:#fff}
-#main{flex:1;padding:20px;overflow:auto}
-.view{max-width:900px}
-textarea,input{width:100%;margin:8px 0;padding:8px}
-#imageList li,#resultsList li,#bannerList li{margin:8px 0}
-.logout{color:#fff}
-#login{max-width:400px}
+*{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif}
+body{margin:0;display:flex;min-height:100vh;background:linear-gradient(180deg,#061733 0%,#0b2345 100%);color:#e6eefc}
+
+/* Layout */
+.gh-split{display:grid;grid-template-columns:220px minmax(0,1fr) 420px;gap:20px;padding:24px;align-items:start;max-width:100%;box-sizing:border-box}
+.gh-sidebar{background:linear-gradient(180deg,#082b57,#06213f);padding:20px;border-radius:12px;color:#fff;box-shadow:0 6px 26px rgba(2,8,24,0.5)}
+.gh-sidebar .brand{font-weight:800;font-size:18px;margin-bottom:14px;letter-spacing:0.2px}
+.gh-sidebar .dot{color:#7cc0ff;margin-left:6px}
+.gh-sidebar nav{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.gh-sidebar nav button{background:transparent;border:none;color:#d3e9ff;padding:12px 10px;text-align:left;border-radius:8px;font-weight:600}
+.gh-sidebar nav button.active, .gh-sidebar nav button:hover{background:rgba(255,255,255,0.03);color:#fff}
+.sidebarFoot{margin-top:18px;font-size:12px;color:#c3ddff}
+
+.gh-mainCard{background:transparent}
+.cardInner{background:linear-gradient(180deg,#071a35 0%,#08233f 100%);padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 10px 40px rgba(2,6,23,0.55)}
+.cardInner h2{color:#f0f8ff;margin:0 0 12px;font-size:20px}
+label{display:block;margin:12px 0}
+input[type="text"],input[type="password"],textarea,select{width:100%;padding:12px;border:1px solid rgba(255,255,255,0.06);border-radius:10px;background:rgba(255,255,255,0.02);color:#e6eefc}
+.panelSection{transition:opacity .18s ease}
+.row{display:flex;gap:10px;align-items:center;margin-top:12px}
+.primary{background:#1580ff;color:#fff;border:none;padding:10px 14px;border-radius:10px;box-shadow:0 8px 22px rgba(21,128,255,0.16);font-weight:700}
+.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:#d8eaff}
+
+.gh-preview{background:linear-gradient(180deg,#051733,#042044);padding:8px;border-radius:10px;display:flex;flex-direction:column;height:80vh;overflow:hidden}
+.previewHeader{display:flex;justify-content:space-between;align-items:center;color:#d8eaff;padding:8px}
+.gh-preview iframe{flex:1;border-radius:6px;border:0;background:#fff;width:100%;height:100%;transform-origin:top left;transition:transform .12s ease}
+.dropZone{margin-top:10px;padding:18px;border:2px dashed rgba(255,255,255,0.06);border-radius:10px;color:#cfe6ff;text-align:center;background:rgba(255,255,255,0.006)}
+.dropZone.active{background:rgba(255,255,255,0.02);border-color:rgba(124,192,255,0.2)}
+/* List styles for images/results/banners */
+ul#imgList, ul#resultsList, ul#bannerList{list-style:none;padding:0;margin:8px 0 0}
+ul#imgList li, ul#resultsList li, ul#bannerList li{background:rgba(255,255,255,0.02);padding:8px 10px;margin-bottom:8px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;color:#e6f3ff}
+ul#imgList li img{height:36px;margin-right:10px}
+
+/* Responsive: stack columns to avoid horizontal scroll */
+@media(max-width:1100px){
+	.gh-split{grid-template-columns:1fr;grid-auto-rows:auto}
+	.gh-preview{order:3;height:50vh}
+	.gh-sidebar{order:1}
+	.gh-mainCard{order:2}
+	.gh-preview iframe{height:100%;transform:none}
+}
+
+/* Utility */
+.muted{color:#9fbfe8}
+button{cursor:pointer}

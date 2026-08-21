@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel (GitHub Pages)</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <main class="gh-main gh-split">
+    <aside class="gh-sidebar">
+      <div class="brand">Carbon Doctor<span class="dot">·</span>Panel</div>
+      <nav>
+        <button data-view="setup" class="active">Connect</button>
+        <button data-view="content">Content</button>
+        <button data-view="images">Images</button>
+        <button data-view="results">Results</button>
+        <button data-view="banners">Banners</button>
+        <button data-view="settings">Settings</button>
+      </nav>
+      <div class="sidebarFoot">
+        <small class="muted">Live preview on the right updates as you edit.</small>
+      </div>
+    </aside>
+
+    <section class="gh-mainCard">
+      <div class="cardInner">
+        <section id="setup" class="panelSection">
+          <h2>Connect to GitHub</h2>
+          <p class="muted">This panel uses a PAT to commit changes directly to your repo. Use a fine-grained token if possible.</p>
+          <label>Repo owner<input id="owner" placeholder="username or org"></label>
+          <label>Repo name<input id="repo" placeholder="repo"></label>
+          <label>Branch<input id="branch" value="main"></label>
+          <label>Personal Access Token (scopes: repo)<input id="token" type="password" placeholder="ghp_xxx..."></label>
+          <div class="row"><button id="connect" class="primary">Connect</button><button id="helpToken" class="secondary">How to get a PAT</button></div>
+          <p id="setupMsg" class="muted"></p>
+        </section>
+
+        <section id="content" class="panelSection" hidden>
+          <h2>Site Content</h2>
+          <label>Hero eyebrow<textarea id="heroEyebrow" placeholder="Short eyebrow text"></textarea></label>
+          <label>Hero H1<textarea id="heroH1" placeholder="Line per heading"></textarea></label>
+          <label>Hero lead<textarea id="heroLead" placeholder="Short intro lead"></textarea></label>
+          <div class="row"><button id="saveContent" class="primary">Save to repo</button><span id="saveMsg" class="muted"></span></div>
+        </section>
+
+        <section id="images" class="panelSection" hidden>
+          <h2>Images</h2>
+          <div class="row"><input type="file" id="imgFile"><button id="uploadImg" class="primary">Upload Image</button></div>
+          <div id="dropZone" class="dropZone">Drag & drop images here</div>
+          <ul id="imgList"></ul>
+        </section>
+
+        <section id="results" class="panelSection" hidden>
+          <h2>Results</h2>
+          <form id="resultForm">
+            <input name="title" placeholder="Title">
+            <input name="desc" placeholder="Description">
+            <input type="file" name="file" id="resultFile">
+            <button>Add result</button>
+          </form>
+          <ul id="resultsList"></ul>
+        </section>
+
+        <section id="banners" class="panelSection" hidden>
+          <h2>Banners</h2>
+          <form id="bannerForm">
+            <input name="text" placeholder="Banner text">
+            <input name="target" placeholder="Target URL or path">
+            <input name="duration" placeholder="Duration (ms)">
+            <button>Create banner</button>
+          </form>
+          <ul id="bannerList"></ul>
+        </section>
+
+        <section id="settings" class="panelSection" hidden>
+          <h2>Settings</h2>
+          <p class="muted">Preview options and visual theme controls.</p>
+          <label>Preview scale<select id="previewScale"><option value="1">100%</option><option value="0.9">90%</option><option value="0.8">80%</option></select></label>
+        </section>
+      </div>
+    </section>
+
+    <aside class="gh-preview">
+      <div class="previewHeader"><span>Live Preview</span><button id="openInNew">Open</button></div>
+      <iframe id="previewFrame" src="/" sandbox="allow-scripts allow-same-origin" frameborder="0"></iframe>
+    </aside>
+  </main>
+  <script src="panel-gh.js"></script>
+</body>
+</html>
