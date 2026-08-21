@@ -356,7 +356,7 @@ function renderBooking(){
       el.querySelector('#confirmBtn').addEventListener('click',()=>{ state.step=5; renderStep(); });
     }
     if(state.step===5){
-      el.innerHTML = `<div class="success"><svg>✓</svg><h2>Booking confirmed — we will be with you shortly.</h2><p>If you need further assistance, reach us on 0800 093 6112.</p><a class="btn" href="tel:08000936112">Call 0800 093 6112</a></div>`;
+      el.innerHTML = `<div class="success"><svg>✓</svg><h2>Thank you, ${state.info.name || 'Customer'}.</h2><p>This is a simulated demo confirmation. No live appointment has been made. For a real booking, call 0800 093 6112.</p><a class="btn" href="tel:08000936112">Call 0800 093 6112</a></div>`;
     }
     // update progress bar
     document.querySelectorAll('.progress span').forEach((sp,i)=>{ sp.classList.toggle('active', i<state.step); });
