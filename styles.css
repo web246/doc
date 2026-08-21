@@ -222,37 +222,6 @@ a{word-break:break-word}
 
 @media(max-width:640px){
   .benefits{flex-wrap:wrap;gap:10px}
-
-/* Clear hero variant for carbon-cleaning page: lighter overlay + image enhancement */
-.pageHero.hero-clear::before{background: linear-gradient(180deg, rgba(2,10,24,0.18), rgba(2,10,24,0.18));}
-.pageHero.hero-clear .heroImage{filter:contrast(1.12) saturate(1.08) brightness(1.06);transform:translateZ(0);}
-.pageHero.hero-clear .pageHeroContent h1{color:var(--navy)}
-/* Put a subtle, high-contrast panel behind the heading and lead for clarity */
-.pageHero.hero-clear .pageHeroContent h1{
-  background: rgba(255,255,255,0.94);
-  padding: 10px 14px;
-  border-radius: 10px;
-  display: inline-block;
-  box-shadow: 0 10px 30px rgba(2,10,24,0.08);
-  text-shadow: none;
-  color: var(--navy);
-  font-weight: 900;
-  line-height: 1.02;
-  font-size: clamp(42px,6vw,84px);
-}
-.pageHero.hero-clear .pageHeroContent .copy{
-  background: rgba(255,255,255,0.9);
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: #18313f;
-  margin-top: 12px;
-}
-
-@media(max-width:900px){
-  .pageHero.hero-clear .pageHeroContent h1{font-size:clamp(32px,8vw,56px);padding:8px 10px}
-  .pageHero.hero-clear .pageHeroContent .copy{display:block;padding:8px 10px}
-}
   .benefit{flex:1 1 calc(50% - 10px);min-width:0}
 }
 .reverse>div:first-child{order:2}

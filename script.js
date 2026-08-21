@@ -76,11 +76,11 @@ function router(){
   const path = (raw.split('?')[0].replace(/\/$/,'') || '/');
   const app = document.getElementById('app');
   document.getElementById('year').textContent = new Date().getFullYear();
-  if(path === '/'){
-    renderTemplate('tmpl-home');
-    hookHome();
-    return;
-  }
+    if(path === '/'){ 
+      renderTemplate('tmpl-home'); 
+      hookHome(); 
+      return; 
+    } 
   if(path.startsWith('/services/')){
     const slug = path.replace('/services/','');
     renderServiceDetail(slug);
@@ -310,8 +310,7 @@ function renderStory(path){
   if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
   if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
   const imageSrc = image.startsWith('http') || image.startsWith('assets/') ? image : `https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}`;
-  const heroClass = path === '/carbon-cleaning' ? 'pageHero hero-clear' : 'pageHero';
-  document.getElementById('app').innerHTML = `<section class="${heroClass}"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="ghost btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
+  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="ghost btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
 }
 
 // Booking flow (simplified single-page form)
