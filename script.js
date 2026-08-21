@@ -632,7 +632,7 @@ function renderBooking(){
 // Home hooks: slider, controls, pause on hover
 function hookHome(){
   const slides = [
-    {k:'ENGINE CARBON CLEANING',title:['Restore Your Engine.','Drive With Confidence.'],text:'Professional hydrogen carbon cleaning designed to help your engine breathe.',img:'assets/hero1.avif',focus:'center center'},
+    {k:'ENGINE CARBON CLEANING',title:['Restore Your Engine.','Drive With Confidence.'],text:'Professional hydrogen carbon cleaning designed to help your engine breathe.',img:'assets/hero1.avif',focus:'58% 42%'},
     {k:'DPF CLEANING & RESTORATION',title:['Clear The Restriction.','Restore The Drive.'],text:'Specialist DPF wash and flush with ECU sensor resetting.',img:'assets/hero2.avif',focus:'center center'},
     {k:'VEHICLE DIAGNOSTICS',title:['Precision Insight.','Clear Direction.'],text:'Professional diagnostics for warning lights and drivability concerns.',img:'assets/hero3.avif',focus:'center center'},
     {k:'COMMERCIAL & FLEET',title:['Keep Your Fleet','Moving.'],text:'DPF cleaning and preventative maintenance for working vehicles.',img:'assets/hero4.avif',focus:'center center'}
