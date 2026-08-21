@@ -138,7 +138,7 @@ function renderServiceDetail(slug){
   const img = imageMap[slug] || '381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png';
   const imageSrc = img.startsWith('http') ? img : `https://static.wixstatic.com/media/${img}/v1/fill/w_1600,h_900,al_c,q_85/${img}`;
   document.getElementById('app').innerHTML = `
-    <section class="pageHero serviceDetailHero"><img class="heroImage" src="${imageSrc}" alt="${svc.name}" loading="lazy"><div class="pageHeroContent"><p class="eyebrow">${svc.category} · NORTHAMPTON</p><h1>${svc.name}</h1><p class="copy">${svc.desc}</p></div></section>
+    <section class="pageHero serviceDetailHero"><img class="heroImage" src="${imageSrc}" alt="${svc.name}"><div class="pageHeroContent"><p class="eyebrow">${svc.category} · NORTHAMPTON</p><h1>${svc.name}</h1><p class="copy">${svc.desc}</p></div></section>
     <section class="section serviceDashboard">
       <aside>
         <p>SERVICE DETAILS</p>
@@ -201,7 +201,7 @@ function renderResultsLegacy(){
   imgs.forEach((id,index)=>{
     const src = id.startsWith('http') || id.startsWith('assests/') ? id : base+id+`/v1/fill/w_1000,h_750,al_c,q_85/${id}`;
     const captions = ['Before & after engine bay', 'Engine clean inspection', 'Engine components assessment'];
-    html += `<button data-src="${src}"><img src="${src}" alt="Carbon cleaning result" loading="lazy"><span><b>Carbon Cleaning</b><small>${captions[index]}</small><svg>+</svg></span></button>`;
+    html += `<button data-src="${src}"><img src="${src}" alt="Carbon cleaning result"><span><b>Carbon Cleaning</b><small>${captions[index]}</small><svg>+</svg></span></button>`;
   });
   html += '</div></div></section>';
   document.getElementById('app').innerHTML = html;
@@ -213,45 +213,10 @@ function renderResultsLegacy(){
 }
 
 function openLightbox(src){
-  const opener = document.activeElement;
   const lb = document.createElement('div'); lb.className='lightbox';
-  lb.setAttribute('role','dialog');
-  lb.setAttribute('aria-modal','true');
-  lb.innerHTML = `
-    <div class="lightboxInner">
-      <button class="lightboxClose" aria-label="Close">✕</button>
-      <img src="${src}" alt="" loading="lazy">
-    </div>`;
+  lb.innerHTML = `<button aria-label="Close">✕</button><img src="${src}" alt="zoom">`;
   document.body.appendChild(lb);
-
-  const closeBtn = lb.querySelector('.lightboxClose');
-  const focusable = () => lb.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-
-  function close(){
-    if(!document.body.contains(lb)) return;
-    document.body.removeChild(lb);
-    document.removeEventListener('keydown', onKey);
-    if(opener && opener.focus) opener.focus();
-  }
-
-  function onKey(e){
-    if(e.key === 'Escape'){
-      e.preventDefault(); close(); return;
-    }
-    if(e.key === 'Tab'){
-      const nodes = Array.from(focusable()).filter(n=>n.offsetParent !== null);
-      if(nodes.length === 0){ e.preventDefault(); return; }
-      const first = nodes[0];
-      const last = nodes[nodes.length-1];
-      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
-    }
-  }
-
-  closeBtn.addEventListener('click', close);
-  document.addEventListener('keydown', onKey);
-  // focus the close button so keyboard users are inside the dialog
-  closeBtn.focus();
+  lb.querySelector('button').onclick = ()=>document.body.removeChild(lb);
 }
 
 function renderAreas(){
@@ -267,7 +232,7 @@ function renderResults(){
     {src:wixImage('381db8_617d80cf46d74d0daa403c63c5cc02fa~mv2.jpg'), title:'Carbon cleaning', text:'A focused approach to cleaner-running vehicles.'},
     {src:wixImage('381db8_f8cf84d94a9b4b67b1abbe8ae32d3e70~mv2_d_4032_3024_s_4_2.jpg'), title:'Vehicle service', text:'Results built around the vehicle in front of us.'}
   ];
-  document.getElementById('app').innerHTML = `<section class="section results resultsPage"><header><div><p class="eyebrow">CARBON CLEANING RESULTS</p><h2>Proof is in the detail.</h2><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div><aside><b>01 — 05</b><span>Selected workshop results</span><small>Click an image to view it in detail.</small></aside></header><div class="resultsGrid">${results.map(item => `<button class="${item.featured ? 'featured' : ''}" data-src="${item.src}"><img src="${item.src}" alt="${item.title}" loading="lazy"><span><b>${item.title}</b><small>${item.text}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div></section>`;
+  document.getElementById('app').innerHTML = `<section class="section results resultsPage"><header><div><p class="eyebrow">CARBON CLEANING RESULTS</p><h2>Proof is in the detail.</h2><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div><aside><b>01 — 05</b><span>Selected workshop results</span><small>Click an image to view it in detail.</small></aside></header><div class="resultsGrid">${results.map(item => `<button class="${item.featured ? 'featured' : ''}" data-src="${item.src}"><img src="${item.src}" alt="${item.title}"><span><b>${item.title}</b><small>${item.text}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div></section>`;
   document.querySelectorAll('.resultsGrid button').forEach(button => button.addEventListener('click',()=>openLightbox(button.dataset.src)));
 }
 
@@ -344,7 +309,7 @@ function renderStory(path){
   if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
   if(path==='/privacy' || path==='/terms'){ title = path==='/privacy' ? 'Privacy Policy' : 'Terms & Conditions'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Your information'; body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.' }
   const imageSrc = image.startsWith('http') ? image : `https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}`;
-  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop" loading="lazy"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><button class="btn" type="button" onclick="document.getElementById('mega')?.removeAttribute('hidden')">Explore services</button></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop" loading="lazy"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
+  document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><button class="btn" type="button" onclick="document.getElementById('mega')?.removeAttribute('hidden')">Explore services</button></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
 }
 
 // Booking flow (simplified single-page form)
