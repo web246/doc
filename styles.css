@@ -30,6 +30,7 @@ a{word-break:break-word}
 .logo{height:74px;width:auto;object-fit:contain;display:block;clip-path:circle(46% at 50% 50%);-webkit-clip-path:circle(46% at 50% 50%);background:transparent}
 .footerGrid .logoChip{margin-bottom:16px}
 .footerGrid .logo{height:88px}
+.footer{background:var(--carbon);color:#fff}
 .topLinks{display:flex;align-items:center;gap:22px;margin-left:auto;margin-right:18px}
 .topLinks a,.topLinks button{font:700 11px 'DM Mono';letter-spacing:.08em;text-transform:uppercase;color:#334155;background:none;border:0;cursor:pointer;padding:0}
 .topLinks a:hover,.topLinks button:hover{color:var(--blue)}
