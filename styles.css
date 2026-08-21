@@ -24,6 +24,7 @@ a{word-break:break-word}
 .nav{height:88px;position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;max-width:1420px;width:calc(100% - 4vw);margin:0;background:rgba(248,251,254,.94);display:flex;align-items:center;justify-content:space-between;padding:8px 3vw;border:1px solid rgba(216,225,235,.9);border-radius:18px;box-shadow:0 14px 34px rgba(7,21,47,.12);backdrop-filter:blur(16px)}
 .brandWrap{display:flex;align-items:center;gap:10px}
 .brandText{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.brandSubtitle{font:700 11px 'DM Mono';text-transform:uppercase;color:var(--carbon-bright);letter-spacing:.12em;margin-top:2px}
 .brand{color:var(--navy);display:flex;flex-direction:row;align-items:center;gap:6px;font-size:24px;font-weight:800;line-height:1;letter-spacing:-.04em}
 .brand b{color:var(--steel);font-weight:800;font-size:24px}
 .brand span{color:var(--blue);font-weight:800;font-size:24px}
