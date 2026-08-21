@@ -224,61 +224,159 @@ function renderAreas(){
 }
 
 function renderResults(){
-  // Clean, self-contained results page built from the provided HTML snapshot
-  const images = [
-    {src:'assets/difference.jpeg', title:'Before & after', caption:'A clear engine-bay comparison following carbon-cleaning work.', category:'before', featured:true},
-    {src:'assets/carbon.png', title:'Carbon clean', caption:'Hydrogen carbon cleaning in progress.', category:'process'},
-    {src:'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Inspection', caption:'Technical inspection and assessment.', category:'inspection'},
-    {src:'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Workshop care', caption:'Professional attention to components.', category:'workshop'},
-    {src:'assets/difference.jpeg', title:'After service', caption:'Improved cleanliness and performance.', category:'before'}
-  ];
-
   const html = `
-    <section class="pageHero resultsHero"><img class="heroImage" src="assets/difference.jpeg" alt="Results hero"><div class="pageHeroContent"><p class="eyebrow">CARBON CLEANING RESULTS</p><h1>Proof is in the detail.</h1><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div></section>
-    <section class="section resultsPage">
-      <header>
+    <section class="pageHero resultsHero">
+      <img class="heroImage" src="assets/difference.jpeg" alt="Results hero">
+      <div class="pageHeroContent">
+        <p class="eyebrow">ENGINE CARE RESULTS</p>
+        <h1>Common issues. Clear answers.</h1>
+        <p class="copy">A practical guide to what carbon build-up can affect, what it can and cannot solve, and why maintenance matters.</p>
+      </div>
+    </section>
+
+    <section class="section resultsPage resultsTextPage">
+      <header class="resultsIntro">
         <div>
-          <p class="eyebrow">GALLERY</p>
-          <h2>Results and case studies</h2>
-          <p class="copy">Browse a selection of recent work showing before & after images, process shots and inspection details.</p>
+          <p class="eyebrow">RESULTS &amp; EXPLANATION</p>
+          <h2>Why carbon cleaning matters</h2>
+          <p class="copy">Carbon build-up can have a real effect on engine health, emissions, sensors and emissions-related components. This is the practical overview our customers use to understand the risks and the limits of carbon-cleaning work.</p>
         </div>
         <aside>
-          <b>01 — ${images.length.toString().padStart(2,'0')}</b>
-          <span>Selected workshop results</span>
-          <small>Click an image to view it in detail.</small>
+          <b>01 — 06</b>
+          <span>Key engine issues explained</span>
+          <small>Clear, honest guidance on what carbon cleaning can help with.</small>
         </aside>
       </header>
 
-      <div class="resultsFilters" style="margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap">
-        <button class="filter active" data-cat="all">All</button>
-        <button class="filter" data-cat="before">Before & After</button>
-        <button class="filter" data-cat="process">Process</button>
-        <button class="filter" data-cat="inspection">Inspection</button>
-        <button class="filter" data-cat="workshop">Workshop</button>
-      </div>
+      <article class="resultsArticle">
+        <section class="resultBlock revealCard" style="animation-delay:0ms">
+          <div class="resultNumber">01</div>
+          <div class="resultContent">
+            <h3>Mechanical problems</h3>
+            <p>There is a huge misconception that Carbon Cleaning is a Repair Service, that it fixes cars engine running problems. Wrong it does not do that, but what it does do is clear out Carbon Deposits that can create engine running problems. Where there is carbon build up, there are problems. Remove the Carbon and you have half a chance of aiding the engine&apos;s health.</p>
+          </div>
+        </section>
 
-      <div class="resultsGrid">${images.map((it,idx)=>`<button class="${it.featured ? 'featured' : ''}" data-src="${it.src}" data-cat="${it.category}" aria-label="Open ${it.title}"><img src="${it.src}" alt="${it.title}"><span><b>${it.title}</b><small>${it.caption}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div>
+        <section class="resultBlock revealCard" style="animation-delay:120ms">
+          <div class="resultNumber">02</div>
+          <div class="resultContent">
+            <h3>Electrical problems</h3>
+            <p>Electrical problems can be created by Carbon getting onto sensitive sensors around the engine. It has been known that a Carbon Clean “can” aid cleaning the sensors around the engine and in the exhaust. Please note there is no guarantee with this.</p>
+          </div>
+        </section>
+
+        <section class="resultBlock revealCard" style="animation-delay:240ms">
+          <div class="resultNumber">03</div>
+          <div class="resultContent">
+            <h3>EGR valves repairs</h3>
+            <p>We are going to be upfront about this myth. Can Carbon Cleaning Unblock or Unclog an EGR Valve? The simple answer is “MAYBE” as we do a Carbon clean. The extra hot exhaust gases get recycled through the EGR Valve and “can” get to work on the Carbon Crud that has built up in there over the life of the engine. The only way to head off EGR Valve issues is simply to have your car/van or lorry Carbon Cleaned every 10,000 miles or every 12 months before your annual oil service.</p>
+          </div>
+        </section>
+
+        <section class="resultBlock revealCard" style="animation-delay:360ms">
+          <div class="resultNumber">04</div>
+          <div class="resultContent">
+            <h3>DPF Filters</h3>
+            <p>DPF filters do get blocked.</p>
+            <p>We offer a Wash &amp; Flush Service from £249 and can offer a Warranty for an Extra £50 that lasts for 30 days or 1000 miles on the work (there must be no other faults with the engine and the service must be up to date).</p>
+            <p>DPF systems can be forced regenerated by us, but this is if they have not exceeded their regenerated limit. If we can regenerate the DPF filter for you then we simply will at an additional cost of just £125. All Mechanical failures and Fire risks are accepted by the vehicle owner.</p>
+            <p>But the question that is hardly ever asked is “WHY” is it getting blocked?</p>
+
+            <ol class="resultsList">
+              <li><strong>Short journeys &amp; low-speed driving (most common)</strong>
+                <p>DPFs need high exhaust temperatures to clean themselves (called regeneration). All of these mean the exhaust never gets hot enough, so soot just accumulates.</p>
+                <ul>
+                  <li>Lots of short trips</li>
+                  <li>Town driving</li>
+                  <li>Stop–start traffic</li>
+                  <li>Engine not fully warming up</li>
+                </ul>
+              </li>
+              <li><strong>Failed or interrupted regeneration</strong>
+                <p>There are two main types:</p>
+                <ul>
+                  <li>Passive regeneration – happens naturally at motorway speeds</li>
+                  <li>Active regeneration – the car injects extra fuel to raise exhaust temps</li>
+                </ul>
+                <p>If you keep switching the engine off during an active regen (often without knowing), it fails repeatedly and the DPF loads up.</p>
+              </li>
+              <li><strong>Driving style</strong>
+                <ul>
+                  <li>Constant low revs</li>
+                  <li>Staying in high gears at low speeds</li>
+                  <li>“Eco driving” taken too far</li>
+                </ul>
+                <p>This keeps exhaust temperatures too low for proper regeneration.</p>
+              </li>
+              <li><strong>Faults elsewhere in the engine</strong>
+                <p>DPFs often block because of another problem, such as:</p>
+                <ul>
+                  <li>Faulty EGR valve</li>
+                  <li>Failed glow plugs (very common)</li>
+                  <li>Boost leaks</li>
+                  <li>Faulty temperature or pressure sensors</li>
+                  <li>Injectors over-fuelling</li>
+                </ul>
+                <p>These cause excess soot or prevent regeneration from starting.</p>
+              </li>
+              <li><strong>Wrong oil or poor servicing</strong>
+                <ul>
+                  <li>Using non-low-ash oil (must be DPF-safe)</li>
+                  <li>Missed oil changes</li>
+                </ul>
+                <p>Ash can’t be burned off like soot, so it permanently fills the DPF.</p>
+              </li>
+              <li><strong>Urban use of modern diesels</strong>
+                <p>Modern diesel engines don’t suit city-only driving. Many DPF issues are simply because the vehicle is being used in a way it wasn’t designed for.</p>
+              </li>
+            </ol>
+
+            <div class="resultWarning">
+              <h4>Warning signs of a blocking DPF</h4>
+              <ul>
+                <li>DPF warning light</li>
+                <li>Loss of power (limp mode)</li>
+                <li>Rising fuel consumption</li>
+                <li>Cooling fans running after shutdown</li>
+                <li>Frequent regeneration attempts</li>
+              </ul>
+            </div>
+
+            <div class="resultWarning">
+              <h4>How to reduce the risk</h4>
+              <ul>
+                <li>Do a 20–30 min motorway run weekly (2,000+ RPM)</li>
+                <li>Don’t ignore warning lights</li>
+                <li>Use correct engine oil</li>
+                <li>Fix small engine faults early</li>
+                <li>Avoid constant short trips if possible</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="resultBlock revealCard" style="animation-delay:480ms">
+          <div class="resultNumber">05</div>
+          <div class="resultContent">
+            <h3>VNT Turbos</h3>
+            <p>Since the late 1990s many diesel cars have been fitted with a turbocharger using a Variable Geometry Turbine or Variable Nozzle Turbine. These turbochargers are very effective in minimising the effects of turbo lag, resulting in a more responsive throttle especially at low engine speed and much improved torque.</p>
+            <p>These systems work by changing the speed and direction of the exhaust gases onto the turbine wheel. The most common of these systems is Garrett&apos;s VNT ® mechanism which incorporates a ring of small movable vanes around the turbine wheel. These vanes are sometimes referred to as the speed control mechanism. At low engine speed, the vanes are in the “closed” position narrowing the gap between them which effectively accelerates the exhaust gas onto the turbine wheel. At high engine speed the vanes open up slowing the exhaust gases, which prevents the turbocharger over-boosting. In most cases this level of control negates the need for a conventional wastegate.</p>
+            <p>Despite these benefits, such turbochargers can be prone to problems. The vane mechanism is easily affected by carbon build-up, which, if it becomes excessive, can cause the mechanism to jam. This can occur quite quickly if the vehicle is used predominantly for short journeys where the engine is not allowed to get up to full operating temperature. The mechanism may jam in either the fully open or fully closed position resulting in no boost or too much boost from the turbo. If the turbo over-boosts there is a real danger that it&apos;s internal components will be damaged, resulting in the need for a complete replacement unit. In many cases, the computer controlling the engine will sense a fault and will severely limit the engine&apos;s performance in what is called a “limp-home” mode to prevent any further damage. Low boost may also cause black smoke under acceleration. The problem may clear itself by cycling the ignition switch, but it is extremely likely that the problem will recur.</p>
+            <p>Previously, the only solution was to buy a brand new replacement turbocharger, because the VNT mechanisms could only be cleaned at the factory. However, Carbon Doctor have the correct equipment to reduce the Carbon without removing the Turbo Unit itself.</p>
+          </div>
+        </section>
+
+        <section class="resultBlock revealCard" style="animation-delay:600ms">
+          <div class="resultNumber">06</div>
+          <div class="resultContent">
+            <h3>Emissions repairs</h3>
+            <p>The Carbon clean significantly reduces dangerous emissions and “can” also help to achieve emission MOT test levels.</p>
+          </div>
+        </section>
+      </article>
     </section>`;
 
   document.getElementById('app').innerHTML = html;
-
-  // Lightbox
-  document.querySelectorAll('.resultsGrid button').forEach(btn=>{
-    btn.addEventListener('click',()=>openLightbox(btn.dataset.src));
-  });
-
-  // Filters
-  document.querySelectorAll('.resultsFilters .filter').forEach(f=>{
-    f.addEventListener('click',()=>{
-      document.querySelectorAll('.resultsFilters .filter').forEach(x=>x.classList.remove('active'));
-      f.classList.add('active');
-      const cat = f.dataset.cat;
-      document.querySelectorAll('.resultsGrid button').forEach(b=>{
-        if(cat==='all') b.style.display='';
-        else b.style.display = (b.dataset.cat===cat) ? '' : 'none';
-      });
-    });
-  });
 }
 
 function renderFaq(){
@@ -352,70 +450,129 @@ function renderStory(path){
   if(path==='/carbon-cleaning'){ title='Give your engine room to breathe.'; image='assets/carbon.png'; head='Carbon cleaning, without dismantling'; body='Hydrogen and oxygen pass through the engine air intake and leave through the exhaust as a gas, helping remove excess carbon associated with poor running.' }
   if(path==='/dpf-services'){ title='Restore flow. Protect performance.'; image='381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'; head='Address the restriction properly'; body='Diesel particulate filters capture exhaust particulates, but soot and ash build-up can lead to warning lights, reduced performance and limp mode.' }
   if(path==='/diagnostics'){ title='Evidence before action.'; image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'; head='Find the cause, not just the symptom'; body='Computer diagnostics support a clearer understanding of vehicle faults.' }
-  if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
+  if(path==='/commercial-fleet'){ title='Keep your fleet moving.'; image='assets/hero1.avif'; head='Built around working vehicles'; body='Clogged DPFs can reduce performance and increase maintenance costs.' }
   if(path==='/privacy' || path==='/terms'){
     if(path==='/privacy'){
-      title = 'Privacy Policy';
-      image='11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg';
-      head='Your information';
-      body='This redesigned website is a client demonstration. For Carbon Doctor\'s currently published information, please contact the business directly at info@carbon.doctor or call 0800 093 6112.';
-    } else {
-      // Render full Terms of Business page
       document.getElementById('app').innerHTML = `
         <section class="section"><div>
-          <p class="eyebrow">TERMS OF BUSINESS</p>
-          <h1>Carbon Doctor Ltd — Terms of Business</h1>
-          <p>Innovative carbon clean solution reduces emissions, improves performance and enhances driveability — in just 30 minutes.</p>
-          <ul>
-            <li>Effects are immediate</li>
-            <li>Revitalises inlet system, cylinder head and exhaust manifold</li>
-            <li>Smoother, more powerful delivery of performance</li>
-            <li>Lower emissions and quieter engine</li>
-            <li>No chemicals used</li>
-            <li>Approx. 30 mins for each clean</li>
-            <li>Less maintenance required</li>
-            <li>CE marked product</li>
-          </ul>
+          <p class="eyebrow">PRIVACY POLICY</p>
+          <h1>Carbon Doctor Ltd — Privacy Policy</h1>
+          <p>At Carbon Doctor, we are committed to protecting your personal information. This privacy policy explains how we collect, use, store and protect information when you contact us, arrange a service, make an enquiry or visit our website.</p>
 
-          <h2>Our contract with you</h2>
-          <p>By asking Carbon Doctor to carry out a motor carbon clean on your vehicle you agree that our work shall be governed by these terms and conditions. Our contract with you is formed at the time of you making your appointment with us online, over the phone or in person. By handing over your vehicle and key to our technician you agree to these Terms of Business.</p>
+          <h2>1. Information we collect</h2>
+          <p>We may collect personal information including your name, address, email address, telephone number, vehicle registration number, mileage, booking date, vehicle details and any information you provide in a message or enquiry. We may also collect information about how you use our website, including browser type, IP address, pages visited and cookies.</p>
 
-          <h3>Declaration</h3>
-          <p>I have read and understood Carbon Doctor Terms of Business as expressed in this contract and agree to my vehicle (registration number below) to have its engine cleaned using the engine carbon clean service.</p>
-          <p>Customer Name<br>Vehicle Registration Number<br>Customer Address<br>Vehicle Mileage<br>Appointment Date<br>Customer Telephone<br>Customer Email<br>Signed by Vehicle Owner (or representative)<br>Date</p>
+          <h2>2. How we use your information</h2>
+          <p>We use your information to arrange and provide vehicle carbon cleaning and DPF services, respond to enquiries, confirm appointments, contact you about your service, manage payments, provide customer support, improve our website and services and comply with legal obligations.</p>
 
-          <h3>1. Risk and faults</h3>
-          <p>In the course of the motor carbon clean process, a controlled volume of hydrogen is introduced into the engine through your vehicle's air intake. Your vehicle may suffer an engine fault through no fault of our technician or motor carbon clean service. You acknowledge that risk. If that happens, we will ask if you would like us to restart your vehicle's engine. If your vehicle will not restart you will be liable for any costs incurred in having the vehicle recovered and repaired subject to clauses 6 & 8 below.</p>
+          <h2>3. Sharing your information</h2>
+          <p>We may share your information with trusted third parties where necessary to provide our service, such as payment processors, scheduling providers, service partners, insurers, legal advisers or regulatory authorities. We will not sell your personal data to third parties for marketing purposes.</p>
 
-          <h3>2. Manufacturer warranty</h3>
-          <p>Please be aware that having your motor cleaned using the carbon clean process may result in your vehicle manufacturer's warranty being invalidated. You acknowledge that risk. If you have any questions regarding your manufacturer's warranty please contact your manufacturer. Carbon Doctor holds certificates of no harm from a number of motor manufacturers — for information please call 0800 093 6112 or write to Customer Services c/o Carbon Doctor or email info@carbon.doctor.</p>
+          <h2>4. Cookies</h2>
+          <p>Our website uses cookies and similar technologies to improve functionality, remember your preferences, understand usage patterns and support security. You can manage cookie settings through your browser. If you choose to disable cookies, some parts of the website may not function properly.</p>
 
-          <h3>3. Payments up front and in part</h3>
-          <p>You agree to be responsible for the full cost of our motor carbon/DPF clean work on your vehicle. In making arrangements to deliver our service to you, we incur business costs. You agree that we can immediately charge 50% (i) for or in any respect of these arrangements or costs and/or (ii) an up front part payment in respect of our service.</p>
+          <h2>5. Data retention</h2>
+          <p>We keep personal information only for as long as necessary to provide the service, fulfil legal obligations, resolve disputes and maintain records. Where appropriate, we will securely delete or anonymise data when it is no longer needed.</p>
 
-          <h3>4. Performance expectations</h3>
-          <p>The improvement to emissions and/or additional motor power and/or fuel economy and/or future engine component reliability depends upon each individual motor, the motor's mileage and hours used, the fuel and lubricants used and the style of driving. Carbon Doctor can make no guarantee with regards to these benefits or the amounts of carbon that can be safely removed in the 30 minute procedure.</p>
+          <h2>6. Your rights</h2>
+          <p>You have the right to request access to the personal data we hold about you, ask us to correct inaccuracies, request deletion of your personal data, object to certain processing and withdraw consent where applicable. If you wish to limit our use of your personal information, please write to Data Protection c/o Carbon Doctor at the address shown below.</p>
 
-          <h3>5. Pre-existing damage</h3>
-          <p>A diagrammatic record of visible damage existing on your vehicle will be made by our technician before starting work on your vehicle. We exclude all liability for repair of damage, whether visible or not, existing before we began to work on your vehicle.</p>
+          <h2>7. Security</h2>
+          <p>We take reasonable steps to protect personal data from loss, misuse, unauthorised access and disclosure. However, no data transmission over the internet is completely secure, and we cannot guarantee absolute security.</p>
 
-          <h3>6. Service delivery & complaints</h3>
-          <p>We will perform our service to the best of our ability at a time and location to be agreed between us. We reserve the right to change our appointment time with you for any reason and will notify you in advance of any change. If you have a complaint about our service, please call 0800 093 6112 or write to Customer Services, Carbon Doctor. If we damage your vehicle, we can arrange its repair at no cost to you. If without our prior written approval you organise a repair yourself, we do not guarantee to pay the costs you incur.</p>
+          <h2>8. Fraud prevention</h2>
+          <p>At Carbon Doctor, we are committed to reducing fraud made using credit cards. We reserve the right not to accept payment by debit or credit card where we suspect that doing so may perpetrate a fraud against us or the registered card holder.</p>
 
-          <h3>7. Liability limits</h3>
-          <p>You acknowledge that the cost to us of cleaning your vehicle's motor in the event that we damage it is likely to exceed the amount we are paid for our service. Our total liability to you for any damage we cause is limited to the total cost of repairing that damage. We do not reimburse indirect or consequential losses (loss of income, loss of use, rental costs, loss of business or profits) except where required by law. Nothing limits our liability for fraud or death or personal injury caused by our negligence.</p>
+          <h2>9. International transfers</h2>
+          <p>Where necessary, your information may be transferred outside the UK or EEA. In those cases, we will put appropriate safeguards in place to protect your personal data in accordance with applicable law.</p>
 
-          <h3>8. DPF cleaning</h3>
-          <p>With respect to DPF cleaning, we are contracted to wash & flush the filter to the best of our ability. We carry OBD diagnostics for insight into your DPF's health only and are under no obligation to inform you of findings unless you request a pre-paid diagnostics check. We can only wash & flush a DPF on a running, healthy engine. If the engine is not able to run, we reserve the right to collect 50% of the agreed booking to cover travel, time and equipment transport. We reserve the right to stop the wash & flush if we find anything that could cause harm or damage.</p>
-
-          <h3>9. Miscellaneous</h3>
-          <p>The only language offered for any contract is English. We reserve the right to update our Terms of Business at any point. Date of issue: 1st August 2017.</p>
-
-          <h3>Contact</h3>
-          <p>Carbon Doctor Ltd<br>167-169 Great Portland Street, 5th Floor, London W1W 5PF<br>Tel: 0800 093 6112<br>Email: info@carbon.doctor</p>
+          <h2>10. Contact</h2>
+          <p>If you have any questions, requests or concerns about this Privacy Policy, please contact us at:<br>Carbon Doctor Ltd<br>167-169 Great Portland Street, 5th Floor, London W1W 5PF<br>Tel: 0800 093 6112<br>Email: info@carbon.doctor</p>
         </div></section>`;
       return;
     }
+
+    // Render full Terms of Business page
+    document.getElementById('app').innerHTML = `
+      <section class="section"><div>
+        <p class="eyebrow">TERMS OF BUSINESS</p>
+        <h1>Carbon Doctor Ltd — Terms of Business</h1>
+        <p>Innovative carbon clean solution reduces emissions, improves performance and enhances driveability – in just 30 minutes.</p>
+        <ul>
+          <li>Effects are immediate</li>
+          <li>Revitalises inlet system, cylinder head and exhaust manifold</li>
+          <li>Smoother, more powerful delivery of performance</li>
+          <li>Lower emissions and quieter engine</li>
+          <li>No chemicals used</li>
+          <li>Approx. 30 mins for each clean</li>
+          <li>Less maintenance required</li>
+          <li>CE marked product</li>
+        </ul>
+
+        <h2>Terms of Business for vehicle carbon clean services</h2>
+
+        <h3>Our contract with you</h3>
+        <p>I have read and understood Carbon Doctor Terms of Business as expressed in this contract and agree to my vehicle, registration number below to have its engine cleaned using the engine carbon clean service.</p>
+        <p>Customer Name<br>Vehicle Registration Number<br>Customer Address<br>Vehicle Mileage<br>Appointment Date<br>Customer Telephone<br>Customer Email<br>Signed by Vehicle Owner (or representative)<br>Date</p>
+
+        <p>When using the motor carbon clean service, you are dealing with Carbon Doctor Ltd. In these terms references to “we” or “our” means Carbon Doctor. By asking Carbon Doctor to carry out a motor carbon clean on your vehicle you agree that our work shall be governed by the following terms and conditions. Our contract with you is formed at the time of you making your appointment with us online, over the phone or in person. Most but not all of the terms set out below are reproduced on the sales document that you (or your representative) can be asked to sign when we attend your vehicle. By handing over your Vehicle and Key to Our Technician you are agreeing to all of our Terms of Business.</p>
+
+        <h3>1. Motor carbon clean process</h3>
+        <p>In the course of the motor carbon clean process, a controlled volume of hydrogen is introduced into the engine through your vehicle's air intake. Your vehicle may suffer an engine fault through no fault of our technician or motor carbon clean service. You acknowledge that risk. If that happens, we will ask if you would like us to restart your vehicle's engine. If your vehicle will not restart you will be liable for any costs incurred in having the vehicle recovered and repaired subject to clause 6 & 8 below.</p>
+
+        <h3>2. Manufacturer warranty</h3>
+        <p>Please be aware that having your motor cleaned using the carbon clean process may result in your vehicle manufacturer's warranty being invalidated. You acknowledge that risk. If you have any questions regarding your manufacturer's warranty please contact your manufacturer. Carbon Doctor holds certificates of no harm from a number of motor manufacturers. For information please call 0800 093 6112 or write to Customer Services c/o Carbon Doctor at the address shown at the bottom of this page or email us using the following link: info@carbon.doctor.</p>
+
+        <h3>3. Payments up front and in part</h3>
+        <p>You agree to be responsible for the full cost of our motor carbon/DPF clean work on your vehicle. In making arrangements to deliver our service to you, we incur business costs. You agree that we can immediately charge 50% (i) for or in any respect of these arrangements or costs and/or (ii) an up front part payment in respect of our service.</p>
+
+        <h3>4. Performance expectations</h3>
+        <p>The improvement to emissions and/or additional motor power and/or fuel economy and/or future engine component reliability that you can expect to enjoy once your vehicle has been cleaned using the engine carbon clean service depends upon each individual motor, the motor's mileage and hours used, the fuel and lubricants used and the style of driving that the engine has experienced prior to the engine carbon clean taking place. Carbon Doctor can make no guarantee with regards to these benefits or the amounts of carbon that can be safely removed in the 30 minute procedure.</p>
+
+        <h3>5. Damage and inspections</h3>
+        <p>A diagrammatic record of visible damage existing on your vehicle will be made by our technician before starting work on your vehicle. We exclude all liability for repair of damage, whether visible or not, existing before we began to work on your vehicle.</p>
+
+        <h3>6. Service delivery and complaints</h3>
+        <p>We will perform our service to the best of our ability at a time and location to be agreed between us. We reserve the right to change our appointment time with you for any reason. We will notify you in advance of any change to the agreed appointment time. If you have a complaint about our service, please call 0800 093 6112 or write to Customer Services c/o Carbon Doctor at the address shown in clause 16(a) or email us using the following link: info@carbon.doctor. If we damage your vehicle, we can arrange its repair at no cost to you. If without our prior written approval you organise a repair yourself, we do not guarantee to pay the costs you incur.</p>
+
+        <h3>7. Key limitations to our work</h3>
+        <p>We have the right to refuse or stop service where a vehicle is not suitable for treatment. We may stop the service if we identify conditions that could cause harm to the engine or DPF. Not all DPFs can be washed and flushed. We do not expect to clean the DPF to 100%, but will remove as much as possible at the service.</p>
+
+        <h3>8. Liability and exclusions</h3>
+        <p>You acknowledge that the cost to us of cleaning your vehicle's motor in the event that we damage it is likely to exceed the amount we are paid for our service. You agree that our total liability to you both for any service failure or vehicle damage is limited to: the total cost of repairing any damage we cause to your vehicle; plus, for any period where your own car will be unavailable to you, the cost to us of providing you with, or paying for, alternative means of transport or a replacement vehicle. Except as stated above, you agree that unless we have written to you to confirm otherwise before we begin work, you and Carbon Doctor do not intend that Carbon Doctor reimburse or compensate you for loss of income, loss of use of your vehicle, costs or expenses incurred from loss of use of your vehicle, cost of any rental cars or taxi services, loss of business or profits or pure economic loss or indirect or consequential loss suffered by you as a result of our work. Nothing shall limit our liability for fraud or death or personal injury caused by our negligence. Your statutory rights are not affected. You will be provided with our full insurance details for claims that we have caused damage to your car/engine/motor and you are willing to have your car/engine/motor fully inspected and a third-party independent report is produced to resolve any such claims.</p>
+
+        <h3>9. Trade and company accounts</h3>
+        <p>Where payment for our work on your vehicle will be made using a trade or company account, our trade/company terms will apply to our work in priority to the terms written above.</p>
+
+        <h3>10. Privacy and cookies</h3>
+        <p>You agree that our privacy policy and policy on cookies as it or they appear from time to time on our website shall govern the handling of your personal information that we receive from you. If you wish to limit our right to use your personal information, please write to Data Protection c/o Carbon Doctor at the address shown below.</p>
+
+        <h3>11. Payment and fraud prevention</h3>
+        <p>At Carbon Doctor, we are committed to reducing fraud made using credit cards. We reserve our right not to accept payment from you by debit or credit card where we suspect that by doing so a fraud may be perpetrated against us or the registered card holder.</p>
+
+        <h3>12. Governing law</h3>
+        <p>Our terms of business and any dispute or claim arising out of or in connection with them or their subject matter (including non-contractual disputes or claims of any kind arising directly or indirectly) shall be governed by and construed in accordance with the laws of England and Wales. The courts of England will have exclusive jurisdiction over any claim arising from, or related to, our goods and services although we retain the right to bring proceedings against you for breach of these conditions in your country of residence or any other relevant country.</p>
+
+        <h3>13. Consumer rights information</h3>
+        <p>Any booking that you make with us by phone or online will be subject to The Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013 (SI 2013/3134) (as amended from time to time). We are pleased to provide you with the following information in accordance with those regulations:</p>
+        <p>Carbon Doctor Ltd<br>167-169 Great Portland Street, 5th Floor, London W1W 5PF<br>0800 093 6112<br>You can contact us using the following link: info@carbon.doctor</p>
+        <p>When we accept your booking we will provide you with a quote for our work. In doing so we make assumptions as to the extent of cleaning your engine will require. If those assumptions prove to be incorrect, our costs of service and therefore our price will change to take account of our additional work. For example, we may have to extend the time of the motor carbon clean service. We reserve our right to adjust our price and we charge you according to the goods and services we supply to you in the course of providing our service to you.</p>
+        <p>We make no additional charge for delivery of the equipment that we will use in the course of providing our service. We accept payment over the telephone using most major debit or credit cards other than Diner's Club and American Express. We do not accept personal cheques. We accept payments made through PayPal, bank transfer, credit & debit card via chip & pin and in cash.</p>
+        <p>We will provide our service to you by appointment at a location agreed between us. Our contract with you is for the supply of vehicle motor carbon clean services. Normally, under the Regulations, if you are a consumer, you will have a right to cancel our contract for 14 working days counting from the day after our contract with you was formed. When we are given the keys to your vehicle, we shall understand that to be your express consent to begin our work on your vehicle. Usually, that means we will have begun our work before the end of the usual cancellation period. Your cancellation rights under the Regulations will end when that work starts.</p>
+        <p>You may cancel your appointment and receive a full refund of any monies that you have paid to us at any time before we commence work on your vehicle. To cancel our service, please call us, contact us via our website or tell our technician before he starts work on your vehicle. We do not require you to complete any special form to cancel your appointment. We recommend that the easiest way to cancel your appointment is to call us on 0800 093 6112. Please note that you may not cancel your appointment after we have commenced our work on your vehicle and we reserve all rights to recover payment for our service in circumstances where you attempt to cancel your appointment or require us to cease work on your vehicle after our work has commenced.</p>
+        <p>The validity of any price we offer you for our services is limited to the duration of the call during which the offer was made. Accordingly, we may refuse to honour a price offered to you where you do not agree to purchase the relevant service during the continuation of the call in which the offer was first communicated to you. Where we have taken any payment from you in the course of you making an appointment with us, we shall hold that payment to your order until the moment we begin our work on your vehicle. With effect from commencement of our work on your vehicle, we reserve our right to retain for our account any payment you have made to us.</p>
+
+        <h3>14. DPF-specific terms</h3>
+        <p>In respect to DPF cleaning, we are only contracted to wash & flush to the best of our ability your filter only. We do carry OBD diagnostics for our insight into your DPF's health only. We are under no obligation to inform you of any said information that we find unless you ask for it via a pre-paid diagnostics check up booking. We may at our discretion inform you of any said findings on the day at the appointment only.</p>
+        <p>We can only wash & flush a DPF on a running healthy engine. If the engine is not able to run, then we reserve the right to collect 50% of the agreed booking of the job costs, for travel, time and equipment transportation to the said location of intended service.</p>
+        <p>We reserve the right to stop the wash and flush clean at any point during the service if we find anything that can cause your DPF or engine any harm or damage during the clean or in the future use of the DPF or engine.</p>
+        <p>Not all DPFs can be washed and flushed. We do not expect to clean the DPF to 100% but will get out as much as possible at the service.</p>
+        <p>Forced regenerations are not a service that we carry out, but if the client requests that we do, then any damage or fire caused by the forced regeneration will not be accepted by Carbon Doctor Ltd but solely by the registered keeper or owner of the said vehicle.</p>
+
+        <p>The only language offered by us for any contract is English. We have the right to update our Terms of Business at any point.</p>
+        <p>Date of issue: 1st August 2017.</p>
+      </div></section>`;
+    return;
   }
   const imageSrc = image.startsWith('http') || image.startsWith('assets/') ? image : `https://static.wixstatic.com/media/${image}/v1/fill/w_1600,h_900,al_c,q_85/${image}`;
   document.getElementById('app').innerHTML = `<section class="pageHero"><img class="heroImage" src="${imageSrc}" alt="Carbon Doctor workshop"><div class="pageHeroContent"><p class="eyebrow">CARBON DOCTOR · NORTHAMPTON</p><h1>${title}</h1><p class="copy">${body}</p><a class="ghost btn" href="#/services">Explore services</a></div></section><section class="section editorial"><div><p class="eyebrow">THE CARBON DOCTOR APPROACH</p><h2>${head}</h2><p class="copy">${body}</p></div><div><img src="${imageSrc}" alt="Carbon Doctor workshop"></div></section><section class="manifesto"><p>PRECISION, CLARITY, CARE</p><h2>Professional equipment. Clear advice. Customer-focused care.</h2><a class="textLink" href="#/book">Choose a service →</a></section>`;
@@ -475,10 +632,10 @@ function renderBooking(){
 // Home hooks: slider, controls, pause on hover
 function hookHome(){
   const slides = [
-    {k:'ENGINE CARBON CLEANING',title:['Restore Your Engine.','Drive With Confidence.'],text:'Professional hydrogen carbon cleaning designed to help your engine breathe.',img:'381db8_d8833a337df34b31a2bba7ca78b0bada~mv2.png'},
-    {k:'DPF CLEANING & RESTORATION',title:['Clear The Restriction.','Restore The Drive.'],text:'Specialist DPF wash and flush with ECU sensor resetting.',img:'381db8_23213a30caeb4a66adb8eeac2ef76395~mv2.jpeg'},
-    {k:'VEHICLE DIAGNOSTICS',title:['Precision Insight.','Clear Direction.'],text:'Professional diagnostics for warning lights and drivability concerns.',img:'11062b_255f8a1173954b118306f66959c9dd07~mv2.jpeg'},
-    {k:'COMMERCIAL & FLEET',title:['Keep Your Fleet','Moving.'],text:'DPF cleaning and preventative maintenance for working vehicles.',img:'381db8_6c9d3ed82dfc4d44a80f9305911f4822~mv2_d_3024_4032_s_4_2.jpg'}
+    {k:'ENGINE CARBON CLEANING',title:['Restore Your Engine.','Drive With Confidence.'],text:'Professional hydrogen carbon cleaning designed to help your engine breathe.',img:'assets/hero1.avif',focus:'center center'},
+    {k:'DPF CLEANING & RESTORATION',title:['Clear The Restriction.','Restore The Drive.'],text:'Specialist DPF wash and flush with ECU sensor resetting.',img:'assets/hero2.avif',focus:'center center'},
+    {k:'VEHICLE DIAGNOSTICS',title:['Precision Insight.','Clear Direction.'],text:'Professional diagnostics for warning lights and drivability concerns.',img:'assets/hero3.avif',focus:'center center'},
+    {k:'COMMERCIAL & FLEET',title:['Keep Your Fleet','Moving.'],text:'DPF cleaning and preventative maintenance for working vehicles.',img:'assets/hero4.avif',focus:'center center'}
   ];
   const root = document.querySelector('.hero');
   if(!root) return;
@@ -488,7 +645,16 @@ function hookHome(){
   const bg = root.querySelector('.heroBg');
   const dots = root.querySelectorAll('.dot');
   let i = 0; let pause=false; let timer=null;
-  function show(n){ i=(n+slides.length)%slides.length; eyebrow.textContent = 'PROFESSIONAL AUTOMOTIVE CARE · '+slides[i].k; h1.innerHTML = slides[i].title.map(s=>`<span>${s}</span>`).join(''); lead.textContent = slides[i].text + ' From Carbon Doctor in Northampton.'; bg.src = 'https://static.wixstatic.com/media/'+slides[i].img+'/v1/fill/w_1600,h_900,al_c,q_85/'+slides[i].img; dots.forEach(d=>d.classList.toggle('active', +d.dataset.i===i)); }
+  function show(n){
+    i=(n+slides.length)%slides.length;
+    eyebrow.textContent = 'PROFESSIONAL AUTOMOTIVE CARE · '+slides[i].k;
+    h1.innerHTML = slides[i].title.map(s=>`<span>${s}</span>`).join('');
+    lead.textContent = slides[i].text + ' From Carbon Doctor in Northampton.';
+    const src = slides[i].img.startsWith('http') || slides[i].img.startsWith('assets/') ? slides[i].img : 'https://static.wixstatic.com/media/'+slides[i].img+'/v1/fill/w_1600,h_900,al_c,q_85/'+slides[i].img;
+    bg.src = src;
+    bg.style.objectPosition = slides[i].focus || '65% center';
+    dots.forEach(d=>d.classList.toggle('active', +d.dataset.i===i));
+  }
   function showWithAnimation(n){
     // update content, then trigger entrance animation
     show(n);
