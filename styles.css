@@ -29,9 +29,9 @@ a{word-break:break-word}
 .brand b{color:var(--steel);font-weight:800;font-size:24px}
 .brand span{color:var(--blue);font-weight:800;font-size:24px}
 .logoChip{background:transparent;border-radius:0;padding:0;display:inline-flex;align-items:center;box-shadow:none}
-.logo{height:74px;width:auto;object-fit:contain;display:block;background:transparent;filter:drop-shadow(0 8px 20px rgba(2,10,24,0.08));}
+.logo{height:74px;width:74px;object-fit:cover;display:block;background:transparent;filter:drop-shadow(0 8px 20px rgba(2,10,24,0.08));border-radius:50%;overflow:hidden;object-position:center}
 .footerGrid .logoChip{margin-bottom:16px}
-.footerGrid .logo{height:88px}
+.footerGrid .logo{height:88px;width:88px;border-radius:50%;object-fit:cover;overflow:hidden}
 .footer{background:var(--carbon);color:#fff}
 .topLinks{display:flex;align-items:center;gap:22px;margin-left:auto;margin-right:18px}
 .topLinks a,.topLinks button{font:700 11px 'DM Mono';letter-spacing:.08em;text-transform:uppercase;color:#334155;background:none;border:0;cursor:pointer;padding:0}
