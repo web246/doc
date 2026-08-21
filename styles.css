@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 
-:root{--navy:#07152f;--blue:#087fd1;--electric:#1ba8f2;--steel:#68788c;--ink:#0a1628;--mist:#f3f7fb;--line:#d8e1eb;--hero-blue: rgba(8,127,209,0.36)}
+:root{--navy:#07152f;--blue:#087fd1;--electric:#1ba8f2;--steel:#68788c;--carbon:var(--steel);--carbon-bright:#7e8b95;--ink:#0a1628;--mist:#f3f7fb;--line:#d8e1eb;--hero-blue: rgba(8,127,209,0.36)}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;padding-top:120px;background:var(--mist);color:var(--ink);font-family:'Manrope',sans-serif}
-h1,h2,h3{letter-spacing:-.04em;margin:0}
+h1,h2,h3{letter-spacing:-.04em;margin:0;color:var(--carbon-bright);font-weight:800}
 button,a{transition:.2s ease}
 a{text-decoration:none;color:inherit}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--electric);outline-offset:3px}
