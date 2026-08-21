@@ -5,7 +5,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;padding-top:120px;background:var(--mist);color:var(--ink);font-family:'Manrope',sans-serif}
-h1,h2,h3{letter-spacing:-.04em;margin:0;color:var(--carbon-bright);font-weight:800}
+h1,h2,h3{letter-spacing:-.04em;margin:0;color:var(--blue);font-weight:800}
 button,a{transition:.2s ease}
 a{text-decoration:none;color:inherit}
 a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--electric);outline-offset:3px}
@@ -49,6 +49,7 @@ a{word-break:break-word}
 
 /* sections & primitives */
 .section{padding:60px 7vw;max-width:1600px;margin:auto}
+.section h2, .resultsPage h2, .pageHero h2 { color: var(--carbon-bright); }
 .section h2,.darkFeature h2,.finalCta h2{font-size:clamp(38px,5vw,76px);line-height:1.02;font-weight:700}
 .copy{color:#58616a;line-height:1.8;font-size:17px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 22px;background:var(--blue);color:#fff;text-transform:uppercase;font:700 11px 'DM Mono';letter-spacing:.08em;cursor:pointer;border:0}
