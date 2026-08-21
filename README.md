@@ -2,6 +2,21 @@
 
 This workspace contains a pixel-accurate static HTML/CSS/JS rebuild of the Carbon Doctor site as specified.
 
+Admin panel (dev server)
+
+- Start the development server which also provides the protected admin panel and upload API:
+
+```powershell
+npm install
+npm start
+```
+
+- Open http://localhost:8000/panel to access the admin UI. Default credentials: `admin` / `changeme`.
+
+Notes
+
+- GitHub Pages cannot host the server-side upload API. To use the admin panel in production, deploy the Node.js server alongside the static files on a platform that supports server processes.
+
 Files:
 - `index.html` — single-file SPA shell and templates
 - `styles.css` — full site CSS (component layer + responsive)

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel — Carbon Doctor</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar" hidden>
+      <h2>Panel</h2>
+      <nav>
+        <button data-view="dashboard">Dashboard</button>
+        <button data-view="content">Site Content</button>
+        <button data-view="images">Images</button>
+        <button data-view="results">Results</button>
+        <button data-view="banners">Banners</button>
+        <button id="logout">Logout</button>
+      </nav>
+    </aside>
+
+    <main id="main">
+      <div id="login">
+        <h1>Admin login</h1>
+        <form id="loginForm">
+          <label>Username<input name="user" required></label>
+          <label>Password<input name="pass" type="password" required></label>
+          <button>Sign in</button>
+        </form>
+        <p id="loginMsg"></p>
+      </div>
+
+      <div id="dashboard" class="view" hidden>
+        <h1>Welcome to Panel</h1>
+        <p>Quick actions</p>
+        <div>
+          <button id="quickUpload">Upload Image</button>
+        </div>
+      </div>
+
+      <div id="content" class="view" hidden>
+        <h1>Site Content</h1>
+        <label>Hero eyebrow<textarea id="heroEyebrow"></textarea></label>
+        <label>Hero H1<textarea id="heroH1"></textarea></label>
+        <label>Hero lead<textarea id="heroLead"></textarea></label>
+        <button id="saveContent">Save</button>
+        <p id="saveMsg"></p>
+      </div>
+
+      <div id="images" class="view" hidden>
+        <h1>Images</h1>
+        <form id="uploadForm">
+          <input type="file" name="file" id="fileInput">
+          <button>Upload</button>
+        </form>
+        <ul id="imageList"></ul>
+      </div>
+
+      <div id="results" class="view" hidden>
+        <h1>Results</h1>
+        <form id="resultForm">
+          <input name="title" placeholder="Title">
+          <input name="desc" placeholder="Short description">
+          <input type="file" name="file">
+          <button>Add result</button>
+        </form>
+        <ul id="resultsList"></ul>
+      </div>
+
+      <div id="banners" class="view" hidden>
+        <h1>Banners</h1>
+        <form id="bannerForm">
+          <input name="text" placeholder="Banner text">
+          <input name="target" placeholder="Target (e.g. /#/)">
+          <input name="duration" placeholder="Duration (ms)">
+          <button>Create banner</button>
+        </form>
+        <ul id="bannerList"></ul>
+      </div>
+
+    </main>
+  </div>
+  <script src="panel.js"></script>
+</body>
+</html>

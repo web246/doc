@@ -1,0 +1,11 @@
+*{box-sizing:border-box;font-family:Segoe UI,Arial,Helvetica,sans-serif}
+body{margin:0;display:flex;height:100vh}
+#sidebar{width:220px;background:#0b3d91;color:#fff;padding:16px}
+#sidebar h2{margin:0 0 12px}
+#sidebar nav button{display:block;width:100%;margin:6px 0;padding:8px;background:transparent;border:1px solid rgba(255,255,255,0.08);color:#fff}
+#main{flex:1;padding:20px;overflow:auto}
+.view{max-width:900px}
+textarea,input{width:100%;margin:8px 0;padding:8px}
+#imageList li,#resultsList li,#bannerList li{margin:8px 0}
+.logout{color:#fff}
+#login{max-width:400px}
