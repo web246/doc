@@ -150,11 +150,11 @@ a{word-break:break-word}
 .trustStrip svg{width:14px;color:#00c2ff;opacity:1;flex-shrink:0}
 
 /* logo loop */
-.logoLoop{background:var(--mist);padding:18px 7vw;border-bottom:1px solid var(--line)}
-.logoLoop{background:var(--mist);padding:18px 7vw;border-bottom:1px solid var(--line);overflow:hidden}
+.logoLoop{background:#ffffff;padding:18px 7vw;border-bottom:1px solid var(--line)}
+.logoLoop{background:#ffffff;padding:18px 7vw;border-bottom:1px solid var(--line);overflow:hidden}
 .logoTrack{display:flex;align-items:center;gap:60px;min-height:72px;will-change:transform;white-space:nowrap}
 .logoItem{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;padding:6px 0}
-.logoItem img{height:72px;width:auto;display:block;object-fit:contain;background:transparent;border-radius:0;filter:none;opacity:1;transition:transform .25s ease,opacity .25s ease}
+.logoItem img{height:72px;width:auto;display:block;object-fit:contain;background:#ffffff;border-radius:0;filter:none;opacity:1;transition:transform .25s ease,opacity .25s ease}
 .logoItem img:hover{transform:scale(1.08)}
 
 /* scrolling animation */
