@@ -224,16 +224,61 @@ function renderAreas(){
 }
 
 function renderResults(){
-  const wixImage = id => `https://static.wixstatic.com/media/${id}/v1/fill/w_1400,h_1050,al_c,q_85/${id}`;
-  const results = [
-    {src:'assests/difference.jpeg', title:'Before & after', text:'A clear engine-bay comparison following carbon-cleaning work.', featured:true},
-    {src:'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Engine assessment', text:'A close, professional inspection before the service begins.'},
-    {src:wixImage('381db8_cdd0afa166194b7e9adad3a3bbf27d1c~mv2_d_4032_3024_s_4_2.jpg'), title:'Workshop care', text:'Professional attention to the engine bay.'},
-    {src:wixImage('381db8_617d80cf46d74d0daa403c63c5cc02fa~mv2.jpg'), title:'Carbon cleaning', text:'A focused approach to cleaner-running vehicles.'},
-    {src:wixImage('381db8_f8cf84d94a9b4b67b1abbe8ae32d3e70~mv2_d_4032_3024_s_4_2.jpg'), title:'Vehicle service', text:'Results built around the vehicle in front of us.'}
+  // Clean, self-contained results page built from the provided HTML snapshot
+  const images = [
+    {src:'assets/difference.jpeg', title:'Before & after', caption:'A clear engine-bay comparison following carbon-cleaning work.', category:'before', featured:true},
+    {src:'assets/carbon.png', title:'Carbon clean', caption:'Hydrogen carbon cleaning in progress.', category:'process'},
+    {src:'https://images.unsplash.com/photo-1771340012319-0b4fca008b54?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Inspection', caption:'Technical inspection and assessment.', category:'inspection'},
+    {src:'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?auto=format&fit=crop&fm=jpg&q=85&w=1400', title:'Workshop care', caption:'Professional attention to components.', category:'workshop'},
+    {src:'assets/difference.jpeg', title:'After service', caption:'Improved cleanliness and performance.', category:'before'}
   ];
-  document.getElementById('app').innerHTML = `<section class="section results resultsPage"><header><div><p class="eyebrow">CARBON CLEANING RESULTS</p><h2>Proof is in the detail.</h2><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div><aside><b>01 — 05</b><span>Selected workshop results</span><small>Click an image to view it in detail.</small></aside></header><div class="resultsGrid">${results.map(item => `<button class="${item.featured ? 'featured' : ''}" data-src="${item.src}"><img src="${item.src}" alt="${item.title}"><span><b>${item.title}</b><small>${item.text}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div></section>`;
-  document.querySelectorAll('.resultsGrid button').forEach(button => button.addEventListener('click',()=>openLightbox(button.dataset.src)));
+
+  const html = `
+    <section class="pageHero resultsHero"><img class="heroImage" src="assets/difference.jpeg" alt="Results hero"><div class="pageHeroContent"><p class="eyebrow">CARBON CLEANING RESULTS</p><h1>Proof is in the detail.</h1><p class="copy">A focused selection of engine-bay work, professional inspections and before-and-after results.</p></div></section>
+    <section class="section resultsPage">
+      <header>
+        <div>
+          <p class="eyebrow">GALLERY</p>
+          <h2>Results and case studies</h2>
+          <p class="copy">Browse a selection of recent work showing before & after images, process shots and inspection details.</p>
+        </div>
+        <aside>
+          <b>01 — ${images.length.toString().padStart(2,'0')}</b>
+          <span>Selected workshop results</span>
+          <small>Click an image to view it in detail.</small>
+        </aside>
+      </header>
+
+      <div class="resultsFilters" style="margin-bottom:18px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="filter active" data-cat="all">All</button>
+        <button class="filter" data-cat="before">Before & After</button>
+        <button class="filter" data-cat="process">Process</button>
+        <button class="filter" data-cat="inspection">Inspection</button>
+        <button class="filter" data-cat="workshop">Workshop</button>
+      </div>
+
+      <div class="resultsGrid">${images.map((it,idx)=>`<button class="${it.featured ? 'featured' : ''}" data-src="${it.src}" data-cat="${it.category}" aria-label="Open ${it.title}"><img src="${it.src}" alt="${it.title}"><span><b>${it.title}</b><small>${it.caption}</small><i aria-hidden="true">+</i></span></button>`).join('')}</div>
+    </section>`;
+
+  document.getElementById('app').innerHTML = html;
+
+  // Lightbox
+  document.querySelectorAll('.resultsGrid button').forEach(btn=>{
+    btn.addEventListener('click',()=>openLightbox(btn.dataset.src));
+  });
+
+  // Filters
+  document.querySelectorAll('.resultsFilters .filter').forEach(f=>{
+    f.addEventListener('click',()=>{
+      document.querySelectorAll('.resultsFilters .filter').forEach(x=>x.classList.remove('active'));
+      f.classList.add('active');
+      const cat = f.dataset.cat;
+      document.querySelectorAll('.resultsGrid button').forEach(b=>{
+        if(cat==='all') b.style.display='';
+        else b.style.display = (b.dataset.cat===cat) ? '' : 'none';
+      });
+    });
+  });
 }
 
 function renderFaq(){
