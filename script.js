@@ -281,6 +281,7 @@ function renderContact(){
           <label class="phoneField">Phone number<input id="phone" name="phone" type="tel" autocomplete="tel" required></label>
           <label>Postcode area<select name="postcode" required><option value="" selected disabled>Select your area</option><option>NN1 — Northampton Central</option><option>NN2 — Kingsthorpe</option><option>NN3 — East Northampton</option><option>NN4 — South Northampton</option><option>NN5 — West Northampton</option><option>NN6 — Northamptonshire</option><option>NN7 — Northamptonshire</option><option>NN8 — Wellingborough</option><option>Other UK postcode</option><option>Outside the UK</option></select></label>
           <label>Vehicle model<input name="vehicle" autocomplete="off" placeholder="e.g. Volkswagen Golf"></label>
+          <label>Service<select name="service"><option value="" selected disabled>Select a service (optional)</option>${SERVICES.map(s=>`<option value="${s.slug}">${s.name}</option>`).join('')}</select></label>
           <label>How can we help?<textarea name="message" rows="4" placeholder="Tell us about the issue or service you need"></textarea></label>
           <div style="grid-column:1/-1"><button class="btn" type="submit">Send enquiry</button></div>
         </form>
